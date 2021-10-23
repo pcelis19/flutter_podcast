@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_podcast/global_player/global_player.dart';
 import 'package:flutter_podcast/home/home_drawer.dart';
 import 'package:flutter_podcast/home/home_navigation.dart';
 import 'package:flutter_podcast/home/layouts/desktop.dart';
@@ -19,12 +20,14 @@ class _HomeState extends State<Home> {
 
   late final HomeIndexedStack homeIndexedStack;
   late final HomeDrawer homeDrawer;
+  late final GlobalPlayer globalPlayer;
 
   @override
   void initState() {
     super.initState();
     homeIndexedStack = HomeIndexedStack(homeNavigation: homeNavigation);
     homeDrawer = HomeDrawer(homeNavigation: homeNavigation);
+    globalPlayer = const GlobalPlayer();
   }
 
   @override
@@ -44,18 +47,21 @@ class _HomeState extends State<Home> {
               homeIndexedStack: homeIndexedStack,
               homeDrawer: homeDrawer,
               homeNavigation: homeNavigation,
+              globalPlayer: globalPlayer,
             );
           case DeviceScreenType.tablet:
             return HomeTablet(
               homeIndexedStack: homeIndexedStack,
               homeDrawer: homeDrawer,
               homeNavigation: homeNavigation,
+              globalPlayer: globalPlayer,
             );
           case DeviceScreenType.desktop:
             return HomeDesktop(
               homeDrawer: homeDrawer,
               homeIndexedStack: homeIndexedStack,
               homeNavigation: homeNavigation,
+              globalPlayer: globalPlayer,
             );
 
           default:
@@ -63,6 +69,7 @@ class _HomeState extends State<Home> {
               homeDrawer: homeDrawer,
               homeIndexedStack: homeIndexedStack,
               homeNavigation: homeNavigation,
+              globalPlayer: globalPlayer,
             );
         }
       },

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_podcast/global_player/global_player.dart';
 import 'package:flutter_podcast/home/home.dart';
 import 'package:flutter_podcast/home/home_drawer.dart';
 import 'package:flutter_podcast/home/home_navigation.dart';
@@ -9,11 +10,13 @@ class HomeMobile extends StatelessWidget {
   final HomeDrawer homeDrawer;
   final HomeIndexedStack homeIndexedStack;
   final HomeNavigation homeNavigation;
+  final GlobalPlayer globalPlayer;
   const HomeMobile({
     Key? key,
     required this.homeDrawer,
     required this.homeIndexedStack,
     required this.homeNavigation,
+    required this.globalPlayer,
   }) : super(key: key);
 
   @override
@@ -25,7 +28,12 @@ class HomeMobile extends StatelessWidget {
         ),
       ),
       drawer: homeDrawer,
-      body: homeIndexedStack,
+      body: Column(
+        children: [
+          Expanded(child: homeIndexedStack),
+          SizedBox(height: kToolbarHeight, child: globalPlayer),
+        ],
+      ),
     );
   }
 }
