@@ -27,6 +27,30 @@ class HomeNavigation {
     }
   }
 
+  /// stream of the curent index
   Stream<int> get currentViewStream => _currentViewController.stream;
+
+  /// current initial data of the controller;
+
   int get currentViewInitialData => _currentViewController.value;
+
+  /// util to convert the index to a Title
+  static String indexToTitle(int index) {
+    switch (index) {
+      case 0:
+        return 'Dashboard';
+      case 1:
+        return 'Top Podcasts';
+      case 2:
+        return 'Favorites';
+      case 3:
+        return 'Settings';
+      default:
+        throw 'Unknown index';
+    }
+  }
+
+  void dispose() {
+    _currentViewController.close();
+  }
 }

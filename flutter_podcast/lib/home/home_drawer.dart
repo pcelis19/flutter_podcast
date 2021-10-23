@@ -4,21 +4,17 @@ import 'package:flutter_podcast/theme_service/theme_service.dart';
 import 'home_navigation.dart';
 
 class HomeDrawer extends StatelessWidget {
-  final Stream<int> currentHomeRouteStream;
-  final int currentHomeInitialData;
   final HomeNavigation homeNavigation;
   const HomeDrawer({
     Key? key,
-    required this.currentHomeRouteStream,
-    required this.currentHomeInitialData,
     required this.homeNavigation,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<int>(
-      initialData: currentHomeInitialData,
-      stream: currentHomeRouteStream,
+      initialData: homeNavigation.currentViewInitialData,
+      stream: homeNavigation.currentViewStream,
       builder: (_, snapshot) {
         int currentRoute = snapshot.data ?? -1;
         return Drawer(
