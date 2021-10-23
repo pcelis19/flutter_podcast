@@ -1,62 +1,45 @@
 import 'package:flutter/material.dart';
-import 'package:responsive_framework/responsive_framework.dart';
-import 'package:rxdart/subjects.dart';
+import 'package:flutter_podcast/theme_service/theme_service.dart';
 
 import 'home/home.dart';
 
 void main() {
-  runApp(FlutterPodcast());
+  runApp(
+    const FlutterPodcast(),
+  );
 }
 
 class FlutterPodcast extends StatelessWidget {
-  FlutterPodcast({Key? key}) : super(key: key);
-  final globalRouter = GlobalRouter(GlobalRouter.kHome);
+  const FlutterPodcast({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      initialRoute: globalRouter.initialRoute,
-      onGenerateRoute: globalRouter.onGenerateRoute,
-      builder: (_, child) => ResponsiveWrapper.builder(
-        child,
-        breakpoints: const [
-          ResponsiveBreakpoint.resize(350, name: MOBILE),
-          ResponsiveBreakpoint.autoScale(600, name: TABLET),
-          ResponsiveBreakpoint.resize(800, name: DESKTOP),
-        ],
-      ),
-      debugShowCheckedModeBanner: false,
+    return StreamBuilder<ThemeMode>(
+      stream: ThemeService.themeModeStream,
+      initialData: ThemeService.themeModeInitialData,
+      builder: (context, snapshot) {
+        return MaterialApp(
+          home: Scaffold(body: Home()),
+          debugShowCheckedModeBanner: false,
+          themeMode: snapshot.data,
+          theme: ThemeData.light().copyWith(
+            pageTransitionsTheme: _pageTransitionTheme,
+          ),
+          darkTheme: ThemeData.dark().copyWith(
+            pageTransitionsTheme: _pageTransitionTheme,
+          ),
+        );
+      },
     );
   }
 }
 
-class GlobalRouter {
-  static const String kDefault = '/';
-  static const String kHome = '/';
-
-  /// the initial route of the global router
-  final String initialRoute;
-
-  /// keeps track of the current route
-  final _currentRouteController = BehaviorSubject<String>();
-
-  GlobalRouter(this.initialRoute) {
-    _currentRouteController.sink.add(initialRoute);
-  }
-
-  /// Stream of the current route
-  Stream<String> get currentRouteStream => _currentRouteController.stream;
-
-  /// initial data for the current route
-  String get currentRouteInitialData => _currentRouteController.value;
-
-  dispose() => _currentRouteController.close();
-
-  MaterialPageRoute onGenerateRoute(RouteSettings settings) {
-    switch (settings.name) {
-      case kHome:
-        return MaterialPageRoute(builder: (_) => Home());
-      default:
-        return MaterialPageRoute(builder: (_) => Home());
-    }
-  }
-}
+const _pageTransitionTheme = PageTransitionsTheme(
+  builders: {
+    TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
+    TargetPlatform.fuchsia: FadeUpwardsPageTransitionsBuilder(),
+    TargetPlatform.iOS: FadeUpwardsPageTransitionsBuilder(),
+    TargetPlatform.linux: FadeUpwardsPageTransitionsBuilder(),
+    TargetPlatform.macOS: FadeUpwardsPageTransitionsBuilder(),
+    TargetPlatform.windows: FadeUpwardsPageTransitionsBuilder(),
+  },
+);

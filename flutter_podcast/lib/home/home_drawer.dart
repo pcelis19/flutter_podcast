@@ -1,69 +1,91 @@
 import 'package:flutter/material.dart';
-import 'package:responsive_framework/responsive_framework.dart';
+import 'package:flutter_podcast/theme_service/theme_service.dart';
 
 import 'home_navigation.dart';
 
 class HomeDrawer extends StatelessWidget {
-  final Stream<String> currentHomeRouteStream;
-  final String currentHomeInitialData;
-  final GlobalKey<NavigatorState> navigatorStateKey;
+  final Stream<int> currentHomeRouteStream;
+  final int currentHomeInitialData;
+  final HomeNavigation homeNavigation;
   const HomeDrawer({
     Key? key,
     required this.currentHomeRouteStream,
     required this.currentHomeInitialData,
-    required this.navigatorStateKey,
+    required this.homeNavigation,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<String>(
+    return StreamBuilder<int>(
       initialData: currentHomeInitialData,
       stream: currentHomeRouteStream,
       builder: (_, snapshot) {
-        String currentRoute = snapshot.data ?? '';
+        int currentRoute = snapshot.data ?? -1;
         return Drawer(
           child: Column(
             children: [
               Expanded(
                 child: ListView(
                   children: [
-                    ListTile(
-                      leading: const Icon(Icons.home),
-                      title: const Text('Home'),
-                      selected: currentRoute == HomeNavigation.kHome,
-                      onTap: currentRoute == HomeNavigation.kHome
-                          ? null
-                          : () => navigatorStateKey.currentState?.popUntil(
-                              (route) =>
-                                  route.settings.name == HomeNavigation.kHome),
-                    ),
-                    ResponsiveVisibility(
-                      hiddenWhen: const [
-                        Condition.smallerThan(name: DESKTOP),
-                      ],
-                      child: HomeNavItem(
-                        iconData: Icons.arrow_circle_up_rounded,
-                        label: 'Top Podcasts',
-                        routeTo: HomeNavigation.kTopPodcasts,
-                        currentRoute: currentRoute,
-                        navigatorStateKey: navigatorStateKey,
+                    const DrawerHeader(
+                      child: Center(
+                        child: Text(
+                          'Flutter Podcast',
+                        ),
                       ),
+                    ),
+                    HomeNavItem(
+                      iconData: Icons.home,
+                      label: 'Dashboard',
+                      currentRoute: currentRoute,
+                      routeTo: 0,
+                      homeNavigation: homeNavigation,
+                    ),
+                    HomeNavItem(
+                      iconData: Icons.arrow_circle_up_rounded,
+                      label: 'Top Podcasts',
+                      routeTo: 1,
+                      currentRoute: currentRoute,
+                      homeNavigation: homeNavigation,
+                    ),
+                    HomeNavItem(
+                      iconData: Icons.arrow_circle_up_rounded,
+                      label: 'Favorites',
+                      routeTo: 2,
+                      currentRoute: currentRoute,
+                      homeNavigation: homeNavigation,
                     ),
                     HomeNavItem(
                       iconData: Icons.settings,
                       label: 'Settings',
-                      routeTo: HomeNavigation.kSettings,
+                      routeTo: 3,
                       currentRoute: currentRoute,
-                      navigatorStateKey: navigatorStateKey,
+                      homeNavigation: homeNavigation,
                     ),
                   ],
                 ),
               ),
-              const Center(
-                child: Text('Flutter Podcast'),
+              ListTile(
+                leading: Icon(
+                  isLightMode(context)
+                      ? Icons.brightness_5
+                      : Icons.brightness_3,
+                ),
+                title:
+                    Text(isLightMode(context) ? 'Lights off?' : 'Lights on?'),
+                onTap: () {
+                  if (isLightMode(context)) {
+                    ThemeService.enableDarkTheme();
+                  } else {
+                    ThemeService.enableLightTheme();
+                  }
+                },
               ),
-              const Center(
-                child: Text('Built with Flutter'),
+              Center(
+                child: Text(
+                  'Built with Flutter',
+                  style: Theme.of(context).textTheme.overline,
+                ),
               ),
             ],
           ),
@@ -76,17 +98,17 @@ class HomeDrawer extends StatelessWidget {
 class HomeNavItem extends StatelessWidget {
   final IconData iconData;
   final String label;
-  final String routeTo;
-  final String currentRoute;
-  final GlobalKey<NavigatorState> navigatorStateKey;
-  const HomeNavItem(
-      {Key? key,
-      required this.iconData,
-      required this.label,
-      required this.routeTo,
-      required this.currentRoute,
-      required this.navigatorStateKey})
-      : super(key: key);
+  final int routeTo;
+  final int currentRoute;
+  final HomeNavigation homeNavigation;
+  const HomeNavItem({
+    Key? key,
+    required this.iconData,
+    required this.label,
+    required this.routeTo,
+    required this.currentRoute,
+    required this.homeNavigation,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +118,7 @@ class HomeNavItem extends StatelessWidget {
       selected: currentRoute == routeTo,
       onTap: currentRoute == routeTo
           ? null
-          : () => navigatorStateKey.currentState?.pushNamed(routeTo),
+          : () => homeNavigation.setCurrentView(routeTo),
     );
   }
 }
