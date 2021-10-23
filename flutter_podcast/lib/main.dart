@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:rxdart/subjects.dart';
+
+import 'home/home.dart';
 
 void main() {
   runApp(FlutterPodcast());
@@ -13,6 +16,15 @@ class FlutterPodcast extends StatelessWidget {
     return MaterialApp(
       initialRoute: globalRouter.initialRoute,
       onGenerateRoute: globalRouter.onGenerateRoute,
+      builder: (_, child) => ResponsiveWrapper.builder(
+        child,
+        breakpoints: const [
+          ResponsiveBreakpoint.resize(350, name: MOBILE),
+          ResponsiveBreakpoint.autoScale(600, name: TABLET),
+          ResponsiveBreakpoint.resize(800, name: DESKTOP),
+        ],
+      ),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -42,9 +54,9 @@ class GlobalRouter {
   MaterialPageRoute onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case kHome:
-        return Home();
+        return MaterialPageRoute(builder: (_) => Home());
       default:
-        return Home();
+        return MaterialPageRoute(builder: (_) => Home());
     }
   }
 }
