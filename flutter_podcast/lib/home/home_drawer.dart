@@ -12,13 +12,14 @@ class HomeDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<int>(
-      initialData: homeNavigation.currentViewInitialData,
-      stream: homeNavigation.currentViewStream,
-      builder: (_, snapshot) {
-        int currentRoute = snapshot.data ?? -1;
-        return Drawer(
-          child: Column(
+    return Drawer(
+      elevation: 16,
+      child: StreamBuilder<int>(
+        initialData: homeNavigation.currentViewInitialData,
+        stream: homeNavigation.currentViewStream,
+        builder: (_, snapshot) {
+          int currentRoute = snapshot.data ?? -1;
+          return Column(
             children: [
               Expanded(
                 child: ListView(
@@ -28,6 +29,18 @@ class HomeDrawer extends StatelessWidget {
                         child: Text(
                           'Flutter Podcast',
                         ),
+                      ),
+                    ),
+                    ListTile(
+                      title: TextField(
+                        decoration: const InputDecoration(
+                          icon: Icon(Icons.search),
+                          hintText: 'Search Podcast',
+                          border: UnderlineInputBorder(),
+                        ),
+                        onSubmitted: (value) {
+                          homeNavigation.setCurrentView(0);
+                        },
                       ),
                     ),
                     HomeNavItem(
@@ -77,16 +90,16 @@ class HomeDrawer extends StatelessWidget {
                   }
                 },
               ),
-              Center(
-                child: Text(
+              ListTile(
+                title: Text(
                   'Built with Flutter',
                   style: Theme.of(context).textTheme.overline,
                 ),
               ),
             ],
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

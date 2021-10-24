@@ -29,10 +29,7 @@ class HomeDesktop extends StatelessWidget {
       ),
       landscape: (context) => Row(
         children: [
-          SizedBox(
-            width: 200,
-            child: homeDrawer,
-          ),
+          homeDrawer,
           Expanded(
             child: Scaffold(
               body: homeIndexedStack,

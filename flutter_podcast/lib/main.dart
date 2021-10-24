@@ -18,7 +18,7 @@ class FlutterPodcast extends StatelessWidget {
       initialData: ThemeService.themeModeInitialData,
       builder: (context, snapshot) {
         return MaterialApp(
-          home: Scaffold(body: Home()),
+          home: const Home(),
           debugShowCheckedModeBanner: false,
           themeMode: snapshot.data,
           theme: ThemeData.light().copyWith(
