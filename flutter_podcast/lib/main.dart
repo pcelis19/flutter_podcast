@@ -22,9 +22,13 @@ class FlutterPodcast extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           themeMode: snapshot.data,
           theme: ThemeData.light().copyWith(
+            accentColor: Colors.pinkAccent,
+            primaryColor: Colors.cyanAccent,
             pageTransitionsTheme: _pageTransitionTheme,
           ),
           darkTheme: ThemeData.dark().copyWith(
+            accentColor: Colors.pinkAccent,
+            primaryColor: Colors.cyanAccent,
             pageTransitionsTheme: _pageTransitionTheme,
           ),
         );
