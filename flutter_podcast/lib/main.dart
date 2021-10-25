@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_podcast/theme_service/theme_service.dart';
 
 import 'home/home.dart';
+import 'services/theme_service.dart';
 
 void main() {
   runApp(

@@ -3,219 +3,259 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_podcast/theme_service/theme_service.dart';
+import 'package:flutter_podcast/widgets/constants.dart';
+import 'package:flutter_podcast/widgets/podcast_list_displyer.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
-const hSizedBox = SizedBox(height: 32);
-const h8SizedBox = SizedBox(height: 8);
-const wSizedBox = SizedBox(width: 16);
-const w8SizedBox = SizedBox(width: 8);
+const kFilterListTag = 'filter_list_tag';
+const kFilterChoicesTag = 'filter_choices_tag';
 
-class Dashboard extends StatelessWidget {
+class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
+
+  @override
+  State<Dashboard> createState() => _DashboardState();
+}
+
+class _DashboardState extends State<Dashboard> {
+  late final Widget filterChoices;
+  late final Widget selectedFilteredItems;
+
+  @override
+  void initState() {
+    super.initState();
+
+    filterChoices = ListView(
+      scrollDirection: Axis.horizontal,
+      children: const [
+        wSizedBox,
+        ListFilter(
+          selected: true,
+          label: '🔥  Popular',
+        ),
+        wSizedBox,
+        ListFilter(
+          selected: false,
+          label: 'Recent',
+        ),
+        wSizedBox,
+        ListFilter(
+          selected: false,
+          label: 'Music',
+        ),
+        wSizedBox,
+        ListFilter(
+          selected: false,
+          label: 'Design',
+        ),
+      ],
+    );
+
+    selectedFilteredItems = ListView(
+      children: const [
+        PodcastTile(
+          title: 'Ngobam',
+          artist: 'Gofar Hilman',
+          genre: 'Music & Fun',
+          episodes: 32,
+        ),
+        h8SizedBox,
+        PodcastTile(
+          title: 'Ngobam',
+          artist: 'Gofar Hilman',
+          genre: 'Music & Fun',
+          episodes: 32,
+        ),
+        h8SizedBox,
+        PodcastTile(
+          title: 'Ngobam',
+          artist: 'Gofar Hilman',
+          genre: 'Music & Fun',
+          episodes: 32,
+        ),
+        h8SizedBox,
+        PodcastTile(
+          title: 'Ngobam',
+          artist: 'Gofar Hilman',
+          genre: 'Music & Fun',
+          episodes: 32,
+        ),
+        h8SizedBox,
+        PodcastTile(
+          title: 'Ngobam',
+          artist: 'Gofar Hilman',
+          genre: 'Music & Fun',
+          episodes: 32,
+        ),
+        h8SizedBox,
+        PodcastTile(
+          title: 'Ngobam',
+          artist: 'Gofar Hilman',
+          genre: 'Music & Fun',
+          episodes: 32,
+        ),
+        h8SizedBox,
+        PodcastTile(
+          title: 'Ngobam',
+          artist: 'Gofar Hilman',
+          genre: 'Music & Fun',
+          episodes: 32,
+        ),
+        h8SizedBox,
+        PodcastTile(
+          title: 'Ngobam',
+          artist: 'Gofar Hilman',
+          genre: 'Music & Fun',
+          episodes: 32,
+        ),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     EdgeInsets edgeInsets;
-    return ResponsiveBuilder(builder: (context, info) {
-      if (info.isTablet) {
-        edgeInsets = const EdgeInsets.symmetric(horizontal: 30);
-      } else if (info.isDesktop) {
-        edgeInsets = const EdgeInsets.symmetric(horizontal: 30, vertical: 10);
-      } else {
-        edgeInsets = const EdgeInsets.all(0);
-      }
-      return Column(
-        children: [
-          Padding(
-            padding: edgeInsets,
-            child: const SizedBox(
-              height: kToolbarHeight,
-              child: Align(
-                alignment: Alignment.topRight,
-                child: ListTile(
-                  title: Text('Guest'),
-                  subtitle: Text('Sign in, and update your status!'),
-                  trailing: CircleAvatar(
-                    child: Icon(Icons.person),
+    return ResponsiveBuilder(
+      builder: (context, info) {
+        if (info.isTablet) {
+          edgeInsets = const EdgeInsets.symmetric(horizontal: 30);
+        } else if (info.isDesktop) {
+          edgeInsets = const EdgeInsets.symmetric(horizontal: 30, vertical: 10);
+        } else {
+          edgeInsets = const EdgeInsets.all(0);
+        }
+        return Column(
+          children: [
+            Padding(
+              padding: edgeInsets,
+              child: const SizedBox(
+                height: kToolbarHeight,
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: ListTile(
+                    title: Text('Guest'),
+                    subtitle: Text('Sign in, and update your status!'),
+                    trailing: CircleAvatar(
+                      child: Icon(Icons.person),
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          hSizedBox,
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: SizedBox(
-              height: 300,
-              child: Column(
+            hSizedBox,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: SizedBox(
+                height: 300,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text('Categories'),
+                          TextButton(
+                            onPressed: () {},
+                            child: const Text('See all'),
+                          )
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: PageView(
+                        scrollDirection: Axis.horizontal,
+                        controller: PageController(
+                            viewportFraction: .70, initialPage: 1),
+                        children: const [
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: CategoryPlaylist(
+                              background: 'Music & Fun',
+                              foreground: 'Music & Fun',
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: CategoryPlaylist(
+                              background: 'Life & Chill',
+                              foreground: 'Life & Chill',
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: CategoryPlaylist(
+                              background: 'Programming',
+                              foreground: 'Programming',
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            hSizedBox,
+            SizedBox(
+              height: kToolbarHeight,
+              child: Row(
                 children: [
-                  SizedBox(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Categories'),
-                        TextButton(
-                          onPressed: () {},
-                          child: Text('See all'),
-                        )
-                      ],
+                  Expanded(
+                    child: Hero(
+                      tag: kFilterChoicesTag,
+                      child: filterChoices,
                     ),
                   ),
-                  Expanded(
-                    child: PageView(
-                      scrollDirection: Axis.horizontal,
-                      controller:
-                          PageController(viewportFraction: .70, initialPage: 1),
-                      children: const [
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: CategoryPlaylist(
-                            background: 'Music & Fun',
-                            foreground: 'Music & Fun',
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => Scaffold(
+                            backgroundColor: Color.alphaBlend(
+                              isLightMode(context)
+                                  ? Colors.white38
+                                  : Colors.black38,
+                              Theme.of(context).scaffoldBackgroundColor,
+                            ),
+                            appBar: AppBar(),
+                            body: Column(
+                              children: [
+                                hSizedBox,
+                                SizedBox(
+                                  height: hSizedBox.height,
+                                  child: Hero(
+                                    tag: kFilterChoicesTag,
+                                    child: filterChoices,
+                                  ),
+                                ),
+                                hSizedBox,
+                                Expanded(
+                                  child: Hero(
+                                    tag: kFilterListTag,
+                                    child: selectedFilteredItems,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: CategoryPlaylist(
-                            background: 'Life & Chill',
-                            foreground: 'Life & Chill',
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: CategoryPlaylist(
-                            background: 'Programming',
-                            foreground: 'Programming',
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
+                      );
+                    },
+                    child: const Text('Expand'),
+                  ),
+                  wSizedBox,
                 ],
               ),
             ),
-          ),
-          hSizedBox,
-          SizedBox(
-            height: kToolbarHeight,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: const [
-                wSizedBox,
-                ListFilter(
-                  selected: true,
-                  label: '🔥  Popular',
-                ),
-                wSizedBox,
-                ListFilter(
-                  selected: false,
-                  label: 'Recent',
-                ),
-                wSizedBox,
-                ListFilter(
-                  selected: false,
-                  label: 'Music',
-                ),
-                wSizedBox,
-                ListFilter(
-                  selected: false,
-                  label: 'Design',
-                ),
-              ],
+            Expanded(
+              child: Hero(
+                tag: kFilterListTag,
+                child: selectedFilteredItems,
+              ),
             ),
-          ),
-          hSizedBox,
-          Expanded(
-            child: ListView(
-              children: const [
-                PodcastTile(
-                  title: 'Ngobam',
-                  artist: 'Gofar Hilman',
-                  genre: 'Music & Fun',
-                  episodes: 32,
-                ),
-                h8SizedBox,
-                PodcastTile(
-                  title: 'Ngobam',
-                  artist: 'Gofar Hilman',
-                  genre: 'Music & Fun',
-                  episodes: 32,
-                ),
-                h8SizedBox,
-                PodcastTile(
-                  title: 'Ngobam',
-                  artist: 'Gofar Hilman',
-                  genre: 'Music & Fun',
-                  episodes: 32,
-                ),
-                h8SizedBox,
-                PodcastTile(
-                  title: 'Ngobam',
-                  artist: 'Gofar Hilman',
-                  genre: 'Music & Fun',
-                  episodes: 32,
-                ),
-              ],
-            ),
-          )
-        ],
-      );
-    });
-  }
-}
-
-class PodcastTile extends StatelessWidget {
-  final String title;
-  final String artist;
-  final String genre;
-  final int episodes;
-
-  const PodcastTile({
-    Key? key,
-    required this.title,
-    required this.artist,
-    required this.genre,
-    required this.episodes,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.bottomLeft,
-              end: Alignment.topRight,
-              colors: [
-                Theme.of(context).accentColor.withOpacity(.2),
-                Theme.of(context).primaryColor.withOpacity(.2)
-              ],
-            ),
-          ),
-          child: ListTile(
-            leading: CircleAvatar(
-              child: FlutterLogo(),
-            ),
-            title: Row(
-              children: [
-                Text(title),
-                w8SizedBox,
-                Text(
-                  artist,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText2
-                      ?.copyWith(color: Theme.of(context).disabledColor),
-                )
-              ],
-            ),
-            subtitle: Text('$genre · $episodes Eps'),
-          ),
-        ),
-      ),
+          ],
+        );
+      },
     );
   }
 }
@@ -231,10 +271,13 @@ class ListFilter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Chip(
-      elevation: selected ? 8 : null,
-      backgroundColor: selected ? null : Colors.transparent,
-      label: Text(label),
+    return Material(
+      color: Colors.transparent,
+      child: Chip(
+        elevation: selected ? 8 : null,
+        backgroundColor: selected ? null : Colors.transparent,
+        label: Text(label),
+      ),
     );
   }
 }
@@ -261,7 +304,7 @@ class CategoryPlaylist extends StatelessWidget {
                 end: Alignment.topRight,
                 colors: [
                   Theme.of(context).accentColor,
-                  Theme.of(context).primaryColor
+                  Theme.of(context).primaryColor,
                 ],
               ),
             ),

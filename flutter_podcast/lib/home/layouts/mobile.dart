@@ -31,7 +31,10 @@ class HomeMobile extends StatelessWidget {
       body: Column(
         children: [
           Expanded(child: homeIndexedStack),
-          SizedBox(height: kToolbarHeight, child: globalPlayer),
+          SizedBox(
+            height: 1.5 * kToolbarHeight,
+            child: globalPlayer,
+          ),
         ],
       ),
     );

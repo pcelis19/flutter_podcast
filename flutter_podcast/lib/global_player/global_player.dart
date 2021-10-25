@@ -5,9 +5,31 @@ class GlobalPlayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [Text('AudioPlayer')],
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.bottomLeft,
+          end: Alignment.topRight,
+          colors: [
+            Theme.of(context).accentColor.withOpacity(.8),
+            Theme.of(context).primaryColor.withOpacity(.8),
+          ],
+        ),
+      ),
+      child: Center(
+        child: ListTile(
+          leading: CircleAvatar(
+            child: FlutterLogo(),
+          ),
+          title: Text(
+            'All About Widgets!',
+          ),
+          trailing: IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.play_arrow),
+          ),
+        ),
+      ),
     );
   }
 }

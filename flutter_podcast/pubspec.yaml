@@ -32,6 +32,9 @@ dependencies:
 
   rxdart: ^0.27.2
   responsive_builder: ^0.4.1
+  podcast_search: ^0.5.0
+  simple_animations: ^4.0.1
+  quiver: ^3.0.1+1
 
 dev_dependencies:
   flutter_test:
