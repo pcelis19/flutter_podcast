@@ -2,10 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_podcast/filtered_list_displayer/filtered_list_displayer.dart';
 import 'package:flutter_podcast/services/theme_service.dart';
-import 'package:flutter_podcast/theme_service/theme_service.dart';
 import 'package:flutter_podcast/widgets/constants.dart';
-import 'package:flutter_podcast/widgets/podcast_list_displyer.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 const kFilterListTag = 'filter_list_tag';
@@ -52,65 +51,7 @@ class _DashboardState extends State<Dashboard> {
       ],
     );
 
-    selectedFilteredItems = ListView(
-      children: const [
-        PodcastTile(
-          title: 'Ngobam',
-          artist: 'Gofar Hilman',
-          genre: 'Music & Fun',
-          episodes: 32,
-        ),
-        h8SizedBox,
-        PodcastTile(
-          title: 'Ngobam',
-          artist: 'Gofar Hilman',
-          genre: 'Music & Fun',
-          episodes: 32,
-        ),
-        h8SizedBox,
-        PodcastTile(
-          title: 'Ngobam',
-          artist: 'Gofar Hilman',
-          genre: 'Music & Fun',
-          episodes: 32,
-        ),
-        h8SizedBox,
-        PodcastTile(
-          title: 'Ngobam',
-          artist: 'Gofar Hilman',
-          genre: 'Music & Fun',
-          episodes: 32,
-        ),
-        h8SizedBox,
-        PodcastTile(
-          title: 'Ngobam',
-          artist: 'Gofar Hilman',
-          genre: 'Music & Fun',
-          episodes: 32,
-        ),
-        h8SizedBox,
-        PodcastTile(
-          title: 'Ngobam',
-          artist: 'Gofar Hilman',
-          genre: 'Music & Fun',
-          episodes: 32,
-        ),
-        h8SizedBox,
-        PodcastTile(
-          title: 'Ngobam',
-          artist: 'Gofar Hilman',
-          genre: 'Music & Fun',
-          episodes: 32,
-        ),
-        h8SizedBox,
-        PodcastTile(
-          title: 'Ngobam',
-          artist: 'Gofar Hilman',
-          genre: 'Music & Fun',
-          episodes: 32,
-        ),
-      ],
-    );
+    selectedFilteredItems = const FilteredListDisplayer();
   }
 
   @override
@@ -163,33 +104,40 @@ class _DashboardState extends State<Dashboard> {
                       ),
                     ),
                     Expanded(
-                      child: PageView(
-                        scrollDirection: Axis.horizontal,
-                        controller: PageController(
-                            viewportFraction: .70, initialPage: 1),
-                        children: const [
-                          Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: CategoryPlaylist(
-                              background: 'Music & Fun',
-                              foreground: 'Music & Fun',
-                            ),
+                      child: Material(
+                        borderRadius: borderRadius40,
+                        elevation: 16,
+                        child: ClipRRect(
+                          borderRadius: borderRadius40,
+                          child: PageView(
+                            scrollDirection: Axis.horizontal,
+                            controller: PageController(
+                                viewportFraction: .70, initialPage: 1),
+                            children: const [
+                              Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: CategoryPlaylist(
+                                  background: 'Music & Fun',
+                                  foreground: 'Music & Fun',
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: CategoryPlaylist(
+                                  background: 'Life & Chill',
+                                  foreground: 'Life & Chill',
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: CategoryPlaylist(
+                                  background: 'Programming',
+                                  foreground: 'Programming',
+                                ),
+                              ),
+                            ],
                           ),
-                          Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: CategoryPlaylist(
-                              background: 'Life & Chill',
-                              foreground: 'Life & Chill',
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: CategoryPlaylist(
-                              background: 'Programming',
-                              foreground: 'Programming',
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     )
                   ],
@@ -231,9 +179,13 @@ class _DashboardState extends State<Dashboard> {
                                 ),
                                 hSizedBox,
                                 Expanded(
-                                  child: Hero(
-                                    tag: kFilterListTag,
-                                    child: selectedFilteredItems,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16.0),
+                                    child: Hero(
+                                      tag: kFilterListTag,
+                                      child: selectedFilteredItems,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -249,9 +201,12 @@ class _DashboardState extends State<Dashboard> {
               ),
             ),
             Expanded(
-              child: Hero(
-                tag: kFilterListTag,
-                child: selectedFilteredItems,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Hero(
+                  tag: kFilterListTag,
+                  child: selectedFilteredItems,
+                ),
               ),
             ),
           ],
@@ -294,42 +249,46 @@ class CategoryPlaylist extends StatelessWidget {
   String get subtitle => "${random.nextInt(199) + 1} Podcast";
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
-      child: Stack(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.bottomLeft,
-                end: Alignment.topRight,
-                colors: [
-                  Theme.of(context).accentColor,
-                  Theme.of(context).primaryColor,
-                ],
-              ),
-            ),
-            child: Center(
-              child: Text(background),
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Container(
-                height: 75,
-                color: isLightMode(context) ? Colors.white38 : Colors.black38,
-                child: ListTile(
-                  title: Text(foreground),
-                  subtitle: Text(subtitle),
+    return Material(
+      borderRadius: borderRadius20,
+      elevation: 16,
+      child: ClipRRect(
+        borderRadius: borderRadius20,
+        child: Stack(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.bottomLeft,
+                  end: Alignment.topRight,
+                  colors: [
+                    Theme.of(context).accentColor,
+                    Theme.of(context).primaryColor,
+                  ],
                 ),
               ),
+              child: Center(
+                child: Text(background),
+              ),
             ),
-          )
-        ],
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Container(
+                  height: 75,
+                  color: isLightMode(context) ? Colors.white38 : Colors.black38,
+                  child: ListTile(
+                    title: Text(foreground),
+                    subtitle: Text(subtitle),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

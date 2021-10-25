@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_podcast/widgets/constants.dart';
-import 'package:podcast_search/podcast_search.dart' as podcast_service;
+import 'package:podcast_search/podcast_search.dart';
 import 'package:simple_animations/simple_animations.dart' as animations;
 
 /// given a List of podcasts, this widget will display them in a list
 class PodcastListDisplayer extends StatelessWidget {
-  final List<podcast_service.Item> podcastResults;
+  final List<Item> podcastResults;
   const PodcastListDisplayer({
     Key? key,
     required this.podcastResults,
@@ -24,6 +24,7 @@ class PodcastListDisplayer extends StatelessWidget {
               ? podcast.genre!.first.name
               : ''),
           episodes: podcast.trackCount ?? 0,
+          podcastResult: podcast,
         );
       },
       separatorBuilder: (_, __) => h8SizedBox,
@@ -38,6 +39,7 @@ class PodcastTile extends StatelessWidget {
   final String genre;
   final int episodes;
   final String imageUrl;
+  final Item podcastResult;
 
   const PodcastTile({
     Key? key,
@@ -46,68 +48,97 @@ class PodcastTile extends StatelessWidget {
     required this.genre,
     required this.episodes,
     required this.imageUrl,
+    required this.podcastResult,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: Material(
-          color: Colors.transparent,
-          child: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.bottomLeft,
-                end: Alignment.topRight,
-                colors: [
-                  Theme.of(context).accentColor.withOpacity(.2),
-                  Theme.of(context).primaryColor.withOpacity(.2)
-                ],
-              ),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(20),
+      child: Material(
+        color: Colors.transparent,
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.bottomLeft,
+              end: Alignment.topRight,
+              colors: [
+                Theme.of(context).accentColor.withOpacity(.2),
+                Theme.of(context).primaryColor.withOpacity(.2)
+              ],
             ),
-            child: ListTile(
-              leading: Image.network(
-                imageUrl,
-                errorBuilder: (_, __, ___) => const Icon(Icons.broken_image),
-                loadingBuilder: (_, child, imageChunk) {
-                  if (imageChunk == null) {
-                    return child;
-                  }
-                  return animations.MirrorAnimation<double>(
-                    tween: Tween(begin: 0, end: 1),
-                    builder: (_, __, value) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Theme.of(context).accentColor.withOpacity(value),
-                              Theme.of(context).primaryColor.withOpacity(value)
-                            ],
-                            begin: Alignment.bottomLeft,
-                            end: Alignment.topRight,
-                          ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: ListTile(
+                    contentPadding: const EdgeInsets.all(0),
+                    leading: ClipRRect(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(20),
+                      ),
+                      child: Image.network(
+                        imageUrl,
+                        errorBuilder: (_, __, ___) =>
+                            const Icon(Icons.broken_image),
+                        loadingBuilder: (_, child, imageChunk) {
+                          if (imageChunk == null) {
+                            return child;
+                          }
+                          return animations.MirrorAnimation<double>(
+                            tween: Tween(begin: 0, end: 1),
+                            builder: (_, __, value) {
+                              return Container(
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Theme.of(context)
+                                          .accentColor
+                                          .withOpacity(value),
+                                      Theme.of(context)
+                                          .primaryColor
+                                          .withOpacity(value)
+                                    ],
+                                    begin: Alignment.bottomLeft,
+                                    end: Alignment.topRight,
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                    title: Text(
+                      title,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          '$episodes Eps · $genre',
+                          overflow: TextOverflow.ellipsis,
                         ),
-                      );
-                    },
-                  );
-                },
-              ),
-              title: Row(
-                children: [
-                  Text(title),
-                  w8SizedBox,
-                  Text(
-                    artist,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText2
-                        ?.copyWith(color: Theme.of(context).disabledColor),
-                  )
-                ],
-              ),
-              subtitle: Text('$genre · $episodes Eps'),
+                        Text(
+                          artist,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                    isThreeLine: true,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.arrow_forward_ios_rounded,
+                  ),
+                )
+              ],
             ),
           ),
         ),
