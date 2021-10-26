@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_podcast/audio_player/audio_player_handler.dart';
 import 'package:flutter_podcast/global_player/global_player.dart';
 import 'package:flutter_podcast/home/home_drawer.dart';
 import 'package:flutter_podcast/home/home_navigation.dart';
@@ -16,7 +17,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final homeNavigation = HomeNavigation();
+  final audioPlayer = AudioPlayerHandler();
+  late final homeNavigation;
 
   late final HomeIndexedStack homeIndexedStack;
   late final HomeDrawer homeDrawer;
@@ -25,14 +27,18 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    homeNavigation = HomeNavigation(audioPlayer);
     homeIndexedStack = HomeIndexedStack(homeNavigation: homeNavigation);
     homeDrawer = HomeDrawer(homeNavigation: homeNavigation);
-    globalPlayer = const GlobalPlayer();
+    globalPlayer = GlobalPlayer(
+      audioPlayer: audioPlayer,
+    );
   }
 
   @override
   void dispose() {
     homeNavigation.dispose();
+    audioPlayer.dispose();
 
     super.dispose();
   }

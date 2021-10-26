@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_podcast/audio_player/audio_player_handler.dart';
 import 'package:flutter_podcast/dashboard/dashboard.dart';
 import 'package:flutter_podcast/favorite_podcasts/favorite_podcasts.dart';
 import 'package:flutter_podcast/settings/settings.dart';
@@ -7,13 +8,16 @@ import 'package:rxdart/rxdart.dart';
 
 class HomeNavigation {
   final _currentViewController = BehaviorSubject<int>();
-  final List<Widget> views = const [
-    Dashboard(),
-    TopPodcasts(),
-    FavoritePodcasts(),
-    Settings(),
-  ];
-  HomeNavigation() {
+  late final List<Widget> views;
+  HomeNavigation(AudioPlayerHandler audioPlayerHandler) {
+    views = [
+      Dashboard(
+        audioPlayerHandler: audioPlayerHandler,
+      ),
+      const TopPodcasts(),
+      const FavoritePodcasts(),
+      const Settings(),
+    ];
     _currentViewController.sink.add(0);
   }
 

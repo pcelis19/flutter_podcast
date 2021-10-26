@@ -44,7 +44,7 @@ class HomeDrawer extends StatelessWidget {
                       ),
                     ),
                     HomeNavItem(
-                      iconData: Icons.home,
+                      iconData: Icons.home_rounded,
                       label: 'Dashboard',
                       currentRoute: currentRoute,
                       routeTo: 0,
@@ -58,7 +58,7 @@ class HomeDrawer extends StatelessWidget {
                       homeNavigation: homeNavigation,
                     ),
                     HomeNavItem(
-                      iconData: Icons.arrow_circle_up_rounded,
+                      iconData: Icons.favorite,
                       label: 'Favorites',
                       routeTo: 2,
                       currentRoute: currentRoute,
@@ -74,22 +74,22 @@ class HomeDrawer extends StatelessWidget {
                   ],
                 ),
               ),
-              ListTile(
-                leading: Icon(
-                  isLightMode(context)
-                      ? Icons.brightness_5
-                      : Icons.brightness_3,
-                ),
-                title:
-                    Text(isLightMode(context) ? 'Lights off?' : 'Lights on?'),
-                onTap: () {
-                  if (isLightMode(context)) {
-                    ThemeService.enableDarkTheme();
-                  } else {
-                    ThemeService.enableLightTheme();
-                  }
-                },
-              ),
+              // ListTile(
+              //   leading: Icon(
+              //     isLightMode(context)
+              //         ? Icons.brightness_5
+              //         : Icons.brightness_3,
+              //   ),
+              //   title:
+              //       Text(isLightMode(context) ? 'Lights off?' : 'Lights on?'),
+              //   onTap: () {
+              //     if (isLightMode(context)) {
+              //       ThemeService.enableDarkTheme();
+              //     } else {
+              //       ThemeService.enableLightTheme();
+              //     }
+              //   },
+              // ),
               ListTile(
                 title: Text(
                   'Built with Flutter',

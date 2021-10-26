@@ -5,7 +5,7 @@ class TopPodcasts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Text('Top Podcasts'),
     );
   }

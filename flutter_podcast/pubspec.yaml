@@ -36,6 +36,7 @@ dependencies:
   simple_animations: ^4.0.1
   quiver: ^3.0.1+1
   cupertino_icons: ^1.0.3
+  settings_ui: ^1.0.0
 
 dev_dependencies:
   flutter_test:

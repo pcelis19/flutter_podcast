@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_podcast/audio_player/audio_player_handler.dart';
 import 'package:flutter_podcast/filtered_list_displayer/filtered_list_displayer.dart';
 import 'package:flutter_podcast/services/theme_service.dart';
 import 'package:flutter_podcast/widgets/constants.dart';
@@ -11,7 +12,9 @@ const kFilterListTag = 'filter_list_tag';
 const kFilterChoicesTag = 'filter_choices_tag';
 
 class Dashboard extends StatefulWidget {
-  const Dashboard({Key? key}) : super(key: key);
+  final AudioPlayerHandler audioPlayerHandler;
+  const Dashboard({Key? key, required this.audioPlayerHandler})
+      : super(key: key);
 
   @override
   State<Dashboard> createState() => _DashboardState();
@@ -51,7 +54,9 @@ class _DashboardState extends State<Dashboard> {
       ],
     );
 
-    selectedFilteredItems = const FilteredListDisplayer();
+    selectedFilteredItems = FilteredListDisplayer(
+      audioPlayerHandler: widget.audioPlayerHandler,
+    );
   }
 
   @override

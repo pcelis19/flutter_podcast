@@ -23,7 +23,7 @@ class PodcastService {
 
   /// will refetch topPodcasts, and return that result
   static Future<List<Item>> forceRefetchTopPodcast({int resultSize = 30}) {
-    var futureFetch = _getTopPodcasts()..then((value) => print('object'));
+    var futureFetch = _getTopPodcasts();
     _lastTopPodcastFetchController.sink.add(futureFetch);
     return futureFetch;
   }

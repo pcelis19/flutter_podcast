@@ -13,22 +13,23 @@ class FlutterPodcast extends StatelessWidget {
   const FlutterPodcast({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<ThemeMode>(
+    return StreamBuilder<ThemePacket>(
       stream: ThemeService.themeModeStream,
       initialData: ThemeService.themeModeInitialData,
       builder: (context, snapshot) {
+        final ThemePacket packet = snapshot.data ?? ThemePacket.defaultTheme;
         return MaterialApp(
           home: const Home(),
           debugShowCheckedModeBanner: false,
-          themeMode: snapshot.data,
+          themeMode: packet.themeMode,
           theme: ThemeData.light().copyWith(
-            accentColor: Colors.pinkAccent,
-            primaryColor: Colors.cyanAccent,
+            primaryColor: packet.primaryColor,
+            accentColor: packet.accentColor,
             pageTransitionsTheme: _pageTransitionTheme,
           ),
           darkTheme: ThemeData.dark().copyWith(
-            accentColor: Colors.pinkAccent,
-            primaryColor: Colors.cyanAccent,
+            primaryColor: packet.primaryColor,
+            accentColor: packet.accentColor,
             pageTransitionsTheme: _pageTransitionTheme,
           ),
         );
