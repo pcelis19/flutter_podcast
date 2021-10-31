@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_podcast/main.dart';
+import 'package:flutter_podcast/services/theme_service.dart';
 import 'package:flutter_podcast/utils/theme_utils.dart';
 import 'package:flutter_podcast/widgets/constants.dart';
 import 'package:go_router/go_router.dart';
@@ -23,47 +24,64 @@ class Welcome extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-              Center(
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
-                  onPressed: () => context.go(FlutterPodcastMainRouter.signIn),
+                  onPressed: () =>
+                      context.push(FlutterPodcastMainRouter.signIn),
                   child: const Text(
                     'Sign in',
                   ),
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  TextButton(
-                    onPressed: () => showDialog(
-                      context: context,
-                      builder: (_) => const SimpleDialog(
-                        title: Text(
-                          'About Flutter Podcast',
-                          textAlign: TextAlign.center,
-                        ),
-                        children: [
-                          Text(
-                            'Flutter Podcast is a Podcast application built with Flutter',
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    TextButton(
+                      onPressed: () => showDialog(
+                        context: context,
+                        builder: (_) => const SimpleDialog(
+                          title: Text(
+                            'About Flutter Podcast',
                             textAlign: TextAlign.center,
-                          )
-                        ],
+                          ),
+                          children: [
+                            Text(
+                              'Flutter Podcast is a Podcast application built with Flutter',
+                              textAlign: TextAlign.center,
+                            )
+                          ],
+                        ),
+                      ),
+                      child: const Text(
+                        'Learn More',
                       ),
                     ),
-                    child: const Text(
-                      'Learn More',
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () =>
-                        context.go(FlutterPodcastMainRouter.signUp),
-                    child: const Text(
-                      'Sign up',
-                    ),
-                  )
-                ],
+                    TextButton(
+                      onPressed: () =>
+                          context.push(FlutterPodcastMainRouter.signUp),
+                      child: const Text(
+                        'Sign up',
+                      ),
+                    )
+                  ],
+                ),
               )
             ],
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            if (isLightMode(context)) {
+              ThemeService.enableDarkTheme();
+            } else {
+              ThemeService.enableLightTheme();
+            }
+          },
+          child: Icon(
+            isLightMode(context) ? Icons.brightness_5 : Icons.brightness_3,
           ),
         ),
       ),

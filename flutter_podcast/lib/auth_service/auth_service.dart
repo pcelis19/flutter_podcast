@@ -17,6 +17,17 @@ abstract class AuthService {
 
   static Future<bool> get isVerified =>
       Future<bool>.delayed(const Duration(milliseconds: 200), () => true);
+  static Future<UserCredential> signIn(
+          {required String email, required String password}) =>
+      _firebaseAuth.signInWithEmailAndPassword(
+          email: email, password: password);
+
+  static Future<UserCredential> signUp(
+          {required String email, required String password}) =>
+      _firebaseAuth.createUserWithEmailAndPassword(
+          email: email, password: password);
+
+  static Future<void> signOut() => _firebaseAuth.signOut();
 }
 
 class FlutterPodcastUser {
