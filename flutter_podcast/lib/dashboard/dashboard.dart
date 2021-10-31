@@ -31,22 +31,22 @@ class _DashboardState extends State<Dashboard> {
     filterChoices = ListView(
       scrollDirection: Axis.horizontal,
       children: const [
-        wSizedBox,
+        w16SizedBox,
         ListFilter(
           selected: true,
           label: '🔥  Popular',
         ),
-        wSizedBox,
+        w16SizedBox,
         ListFilter(
           selected: false,
           label: 'Recent',
         ),
-        wSizedBox,
+        w16SizedBox,
         ListFilter(
           selected: false,
           label: 'Music',
         ),
-        wSizedBox,
+        w16SizedBox,
         ListFilter(
           selected: false,
           label: 'Design',
@@ -89,7 +89,7 @@ class _DashboardState extends State<Dashboard> {
                 ),
               ),
             ),
-            hSizedBox,
+            h32SizedBox,
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: SizedBox(
@@ -149,7 +149,7 @@ class _DashboardState extends State<Dashboard> {
                 ),
               ),
             ),
-            hSizedBox,
+            h32SizedBox,
             SizedBox(
               height: kToolbarHeight,
               child: Row(
@@ -174,15 +174,15 @@ class _DashboardState extends State<Dashboard> {
                             appBar: AppBar(),
                             body: Column(
                               children: [
-                                hSizedBox,
+                                h32SizedBox,
                                 SizedBox(
-                                  height: hSizedBox.height,
+                                  height: h32SizedBox.height,
                                   child: Hero(
                                     tag: kFilterChoicesTag,
                                     child: filterChoices,
                                   ),
                                 ),
-                                hSizedBox,
+                                h32SizedBox,
                                 Expanded(
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
@@ -201,7 +201,7 @@ class _DashboardState extends State<Dashboard> {
                     },
                     child: const Text('Expand'),
                   ),
-                  wSizedBox,
+                  w16SizedBox,
                 ],
               ),
             ),

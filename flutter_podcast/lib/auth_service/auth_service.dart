@@ -14,6 +14,9 @@ abstract class AuthService {
   static FlutterPodcastUser? get user => _firebaseAuth.currentUser != null
       ? FlutterPodcastUser(_firebaseAuth.currentUser!)
       : null;
+
+  static Future<bool> get isVerified =>
+      Future<bool>.delayed(const Duration(milliseconds: 200), () => true);
 }
 
 class FlutterPodcastUser {

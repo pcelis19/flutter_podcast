@@ -1,12 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_podcast/auth_service/auth_service.dart';
 
 import 'home/home.dart';
 import 'services/theme_service.dart';
+import 'widgets/constants.dart';
 
 void main() {
   runApp(
-    const FlutterPodcast(),
+    const EntryPoint(),
   );
+}
+
+class EntryPoint extends StatelessWidget {
+  const EntryPoint({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<FlutterPodcastUser?>(
+      stream: AuthService.userStream,
+      initialData: AuthService.user,
+      builder: (context, snapshot) {
+        FlutterPodcastUser? currentUser = snapshot.data;
+        final routeInformationParser = _getRouteInformationParser(currentUser);
+        final routerDelegate = _getRouterDelegate(currentUser);
+
+        return MaterialApp.router(
+          routeInformationParser: routeInformationParser,
+          routerDelegate: routerDelegate,
+        );
+      },
+    );
+  }
+
+  /// if currentUser is null
+  ///   then the page list should be
+  /// * Welcome
+  /// * Login -> success login, return value should be else PageList
+  /// * Sign up -> success sign up, return value should be else PageList
+  /// else if currentUser is not null
+  ///   then the page list should be
+  /// * FlutterPodcast -> on sign out, return value should be first if block
+  RouteInformationParser<Object> _getRouteInformationParser(
+      FlutterPodcastUser? flutterPodcastUser) {}
+  RouterDelegate<Object> _getRouterDelegate(
+      FlutterPodcastUser? flutterPodcastUser) {}
 }
 
 class FlutterPodcast extends StatelessWidget {
@@ -25,26 +62,15 @@ class FlutterPodcast extends StatelessWidget {
           theme: ThemeData.light().copyWith(
             primaryColor: packet.primaryColor,
             accentColor: packet.accentColor,
-            pageTransitionsTheme: _pageTransitionTheme,
+            pageTransitionsTheme: pageTransitionTheme,
           ),
           darkTheme: ThemeData.dark().copyWith(
             primaryColor: packet.primaryColor,
             accentColor: packet.accentColor,
-            pageTransitionsTheme: _pageTransitionTheme,
+            pageTransitionsTheme: pageTransitionTheme,
           ),
         );
       },
     );
   }
 }
-
-const _pageTransitionTheme = PageTransitionsTheme(
-  builders: {
-    TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
-    TargetPlatform.fuchsia: FadeUpwardsPageTransitionsBuilder(),
-    TargetPlatform.iOS: FadeUpwardsPageTransitionsBuilder(),
-    TargetPlatform.linux: FadeUpwardsPageTransitionsBuilder(),
-    TargetPlatform.macOS: FadeUpwardsPageTransitionsBuilder(),
-    TargetPlatform.windows: FadeUpwardsPageTransitionsBuilder(),
-  },
-);
