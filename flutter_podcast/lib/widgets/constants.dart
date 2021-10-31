@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_podcast/services/theme_service.dart';
+import 'package:flutter_podcast/utils/theme_utils.dart';
 
 const h32SizedBox = SizedBox(height: 32);
 const h8SizedBox = SizedBox(height: 8);

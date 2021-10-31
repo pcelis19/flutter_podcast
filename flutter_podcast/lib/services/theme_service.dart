@@ -57,7 +57,3 @@ class ThemeService {
   /// initial data for the current theme of the application
   static ThemePacket get themeModeInitialData => _themeModeController.value;
 }
-
-/// if the given context is in [ThemeMode.light]
-bool isLightMode(BuildContext context) =>
-    Theme.of(context).brightness == Brightness.light;

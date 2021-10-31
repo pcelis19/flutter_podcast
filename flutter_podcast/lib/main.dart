@@ -1,11 +1,20 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_podcast/auth_service/auth_service.dart';
+import 'package:flutter_podcast/sign_in/sign_in.dart';
+import 'package:flutter_podcast/welcome/welcome.dart';
+import 'package:go_router/go_router.dart';
 
 import 'home/home.dart';
 import 'services/theme_service.dart';
+import 'sign_up/sign_up.dart';
 import 'widgets/constants.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   runApp(
     const EntryPoint(),
   );
@@ -21,12 +30,11 @@ class EntryPoint extends StatelessWidget {
       initialData: AuthService.user,
       builder: (context, snapshot) {
         FlutterPodcastUser? currentUser = snapshot.data;
-        final routeInformationParser = _getRouteInformationParser(currentUser);
-        final routerDelegate = _getRouterDelegate(currentUser);
+        final _mainRouter = FlutterPodcastMainRouter(currentUser);
 
         return MaterialApp.router(
-          routeInformationParser: routeInformationParser,
-          routerDelegate: routerDelegate,
+          routeInformationParser: _mainRouter.routerInformationParser,
+          routerDelegate: _mainRouter.routerDelegate,
         );
       },
     );
@@ -40,10 +48,7 @@ class EntryPoint extends StatelessWidget {
   /// else if currentUser is not null
   ///   then the page list should be
   /// * FlutterPodcast -> on sign out, return value should be first if block
-  RouteInformationParser<Object> _getRouteInformationParser(
-      FlutterPodcastUser? flutterPodcastUser) {}
-  RouterDelegate<Object> _getRouterDelegate(
-      FlutterPodcastUser? flutterPodcastUser) {}
+
 }
 
 class FlutterPodcast extends StatelessWidget {
@@ -73,4 +78,69 @@ class FlutterPodcast extends StatelessWidget {
       },
     );
   }
+}
+
+class FlutterPodcastMainRouter {
+  static const defaultRoute = '/';
+  static const signUp = '/sign_up';
+  static const signIn = '/sign_in';
+  static const home = '/home';
+  final FlutterPodcastUser? flutterPodcastUser;
+  late GoRouter _router;
+  FlutterPodcastMainRouter(this.flutterPodcastUser) {
+    final routes = <GoRoute>[
+      GoRoute(
+        path: defaultRoute,
+        pageBuilder: (_, state) => MaterialPage(
+          key: state.pageKey,
+          child: const Welcome(),
+        ),
+      )
+    ];
+
+    if (flutterPodcastUser == null) {
+      /// if user is null, then add sign up and sign in
+      routes
+        ..add(
+          GoRoute(
+            path: signUp,
+            pageBuilder: (_, state) => MaterialPage(
+              key: state.pageKey,
+              child: const SignUp(),
+            ),
+          ),
+        )
+        ..add(
+          GoRoute(
+            path: signIn,
+            pageBuilder: (_, state) => MaterialPage(
+              key: state.pageKey,
+              child: const SignIn(),
+            ),
+          ),
+        );
+    } else {
+      /// else just Home on top of that
+      routes.add(
+        GoRoute(
+          path: home,
+          pageBuilder: (_, state) => MaterialPage(
+            key: state.pageKey,
+            child: const Home(),
+          ),
+        ),
+      );
+    }
+    _router = GoRouter(
+      routes: routes,
+      errorPageBuilder: (_, __) => const MaterialPage(
+        child: Center(
+          child: Text((kIsWeb ? '(404): ' : '') + 'Page Not Found'),
+        ),
+      ),
+    );
+  }
+  RouteInformationParser<Uri> get routerInformationParser =>
+      _router.routeInformationParser;
+  RouterDelegate<Uri> get routerDelegate => _router.routerDelegate;
 }
