@@ -175,6 +175,7 @@ class FlutterPodcastMainRouter {
     }
     _router = GoRouter(
       routes: routes,
+      initialLocation: flutterPodcastUser == null ? defaultRoute : home,
       errorPageBuilder: (_, __) => const MaterialPage(
         child: Material(
           child: Center(
