@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_podcast/auth_service/auth_service.dart';
-import 'package:flutter_podcast/sign_in_out/sign_in_out.dart';
+import 'package:flutter_podcast/sign_in_up/sign_in_up.dart';
 import 'package:flutter_podcast/welcome/welcome.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -30,7 +30,10 @@ void main() async {
 }
 
 class EntryPoint extends StatefulWidget {
+  /// router for the application
   final FlutterPodcastMainRouter mainRouter;
+
+  ///
   const EntryPoint({Key? key, required this.mainRouter}) : super(key: key);
 
   @override
@@ -38,13 +41,17 @@ class EntryPoint extends StatefulWidget {
 }
 
 class _EntryPointState extends State<EntryPoint> {
+  /// most recent router for the application
   late FlutterPodcastMainRouter _mainRouter;
+
+  ///
   @override
   void initState() {
     super.initState();
     _mainRouter = widget.mainRouter;
   }
 
+  ///
   @override
   void didUpdateWidget(covariant EntryPoint oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -57,6 +64,7 @@ class _EntryPointState extends State<EntryPoint> {
     }
   }
 
+  ///
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<ThemePacket>(
@@ -87,34 +95,26 @@ class _EntryPointState extends State<EntryPoint> {
   }
 }
 
-// class FlutterPodcast extends StatelessWidget {
-//   const FlutterPodcast({Key? key}) : super(key: key);
-//   @override
-//   Widget build(BuildContext context) {
-//     return StreamBuilder<ThemePacket>(
-//       stream: ThemeService.themeModeStream,
-//       initialData: ThemeService.themeModeInitialData,
-//       builder: (context, snapshot) {
-//         final ThemePacket packet = snapshot.data ?? ThemePacket.defaultTheme;
-//         return MaterialApp(
-//           home: const Home(),
-//           debugShowCheckedModeBanner: false,
-//           themeMode: packet.themeMode,
-//           theme: ThemeData.light().copyWith(
-//             primaryColor: packet.primaryColor,
-//             accentColor: packet.accentColor,
-//             pageTransitionsTheme: pageTransitionTheme,
-//           ),
-//           darkTheme: ThemeData.dark().copyWith(
-//             primaryColor: packet.primaryColor,
-//             accentColor: packet.accentColor,
-//             pageTransitionsTheme: pageTransitionTheme,
-//           ),
-//         );
-//       },
-//     );
-//   }
-// }
+/*
+Some Discord Help
+```dart
+ // redirect to the login page if the user is not logged in
+    redirect: (state) {
+      final loggedIn = loginInfo.loggedIn;
+      final goingToLogin = state.location == '/login';
+
+      // the user is not logged in and not headed to /login, they need to login
+      if (!loggedIn && !goingToLogin) return '/login';
+
+      // the user is logged in and headed to /login, no need to login again
+      if (loggedIn && goingToLogin) return '/';
+
+      // no need to redirect at all
+      return null;
+    },
+```
+https://github.com/csells/go_router/#top-level-redirection
+*/
 
 class FlutterPodcastMainRouter {
   static const defaultRoute = '/';
@@ -189,23 +189,3 @@ class FlutterPodcastMainRouter {
       _router.routeInformationParser;
   RouterDelegate<Uri> get routerDelegate => _router.routerDelegate;
 }
-/*
-Some Discord Help
-```dart
- // redirect to the login page if the user is not logged in
-    redirect: (state) {
-      final loggedIn = loginInfo.loggedIn;
-      final goingToLogin = state.location == '/login';
-
-      // the user is not logged in and not headed to /login, they need to login
-      if (!loggedIn && !goingToLogin) return '/login';
-
-      // the user is logged in and headed to /login, no need to login again
-      if (loggedIn && goingToLogin) return '/';
-
-      // no need to redirect at all
-      return null;
-    },
-```
-https://github.com/csells/go_router/#top-level-redirection
-*/
