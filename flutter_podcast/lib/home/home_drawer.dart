@@ -3,16 +3,17 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_podcast/auth_service/auth_service.dart';
 import 'package:flutter_podcast/home/layouts/mobile.dart';
-import 'package:flutter_podcast/services/theme_service.dart';
 import 'package:flutter_podcast/widgets/flutter_podcast_error_widget.dart';
 
 import 'home_navigation.dart';
 
 class HomeDrawer extends StatelessWidget {
   final HomeNavigation homeNavigation;
+  final FlutterPodcastUser user;
   const HomeDrawer({
     Key? key,
     required this.homeNavigation,
+    required this.user,
   }) : super(key: key);
 
   @override
@@ -76,7 +77,9 @@ class HomeDrawer extends StatelessWidget {
                       currentRoute: currentRoute,
                       homeNavigation: homeNavigation,
                     ),
-                    const SignOutButton()
+                    SignOutButton(
+                      user: user,
+                    )
                   ],
                 ),
               ),
@@ -139,7 +142,8 @@ class HomeNavItem extends StatelessWidget {
 }
 
 class SignOutButton extends StatefulWidget {
-  const SignOutButton({Key? key}) : super(key: key);
+  final FlutterPodcastUser user;
+  const SignOutButton({Key? key, required this.user}) : super(key: key);
 
   @override
   State<SignOutButton> createState() => _SignOutButtonState();
@@ -156,7 +160,7 @@ class _SignOutButtonState extends State<SignOutButton> {
 
     try {
       await Future.delayed(const Duration(milliseconds: 1600));
-      AuthService.signOut();
+      widget.user.signOut();
     } catch (e) {
       showDialog(
           context: context,

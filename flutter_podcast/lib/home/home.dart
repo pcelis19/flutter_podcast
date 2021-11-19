@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_podcast/audio_player/audio_player_handler.dart';
+import 'package:flutter_podcast/auth_service/auth_service.dart';
 import 'package:flutter_podcast/global_player/global_player.dart';
 import 'package:flutter_podcast/home/home_drawer.dart';
 import 'package:flutter_podcast/home/home_navigation.dart';
@@ -10,7 +11,8 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'layouts/home_tablet.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  final FlutterPodcastUser user;
+  const Home({Key? key, required this.user}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
@@ -18,7 +20,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final audioPlayer = AudioPlayerHandler();
-  late final homeNavigation;
+  late final HomeNavigation homeNavigation;
 
   late final HomeIndexedStack homeIndexedStack;
   late final HomeDrawer homeDrawer;
@@ -29,7 +31,10 @@ class _HomeState extends State<Home> {
     super.initState();
     homeNavigation = HomeNavigation(audioPlayer);
     homeIndexedStack = HomeIndexedStack(homeNavigation: homeNavigation);
-    homeDrawer = HomeDrawer(homeNavigation: homeNavigation);
+    homeDrawer = HomeDrawer(
+      homeNavigation: homeNavigation,
+      user: widget.user,
+    );
     globalPlayer = GlobalPlayer(
       audioPlayer: audioPlayer,
     );

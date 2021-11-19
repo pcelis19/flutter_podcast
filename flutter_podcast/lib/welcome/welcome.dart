@@ -5,6 +5,8 @@ import 'package:flutter_podcast/utils/theme_utils.dart';
 import 'package:flutter_podcast/widgets/constants.dart';
 import 'package:go_router/go_router.dart';
 
+import '../router.dart';
+
 class Welcome extends StatelessWidget {
   const Welcome({Key? key}) : super(key: key);
 
@@ -28,7 +30,7 @@ class Welcome extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
                   onPressed: () =>
-                      context.push(FlutterPodcastMainRouter.signIn),
+                      context.push(FlutterPodcastMainRouter.signInName),
                   child: const Text(
                     'Sign in',
                   ),
@@ -61,7 +63,7 @@ class Welcome extends StatelessWidget {
                     ),
                     TextButton(
                       onPressed: () =>
-                          context.push(FlutterPodcastMainRouter.signUp),
+                          context.push(FlutterPodcastMainRouter.signUpName),
                       child: const Text(
                         'Sign up',
                       ),

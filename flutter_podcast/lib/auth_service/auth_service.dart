@@ -1,22 +1,36 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 
-abstract class AuthService {
+class AuthService extends ChangeNotifier {
   static final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  static AuthService? _instance;
+  FlutterPodcastUser? _currentUser;
+  AuthService._();
+  static AuthService get instance {
+    if (_instance != null) {
+      return _instance!;
+    } else {
+      _instance = AuthService._();
+      _firebaseAuth.authStateChanges().listen(_instance!._eventHandler);
+      return _instance!;
+    }
+  }
 
-  static Stream<FlutterPodcastUser?> get userStream =>
-      _firebaseAuth.authStateChanges().map((event) {
-        if (event != null) {
-          return FlutterPodcastUser(event);
-        } else {
-          return null;
-        }
-      });
-  static FlutterPodcastUser? get user => _firebaseAuth.currentUser != null
-      ? FlutterPodcastUser(_firebaseAuth.currentUser!)
-      : null;
+  FlutterPodcastUser? get currentUser => _currentUser;
 
-  static Future<bool> get isVerified =>
-      Future<bool>.delayed(const Duration(milliseconds: 200), () => true);
+  void _eventHandler(User? event) {
+    if (event == null) {
+      _instance!._sinkUserEvent(null);
+    } else {
+      _instance!._sinkUserEvent(FlutterPodcastUser(event, _firebaseAuth));
+    }
+  }
+
+  void _sinkUserEvent(FlutterPodcastUser? nextEvent) {
+    _currentUser = nextEvent;
+    notifyListeners();
+  }
+
   static Future<UserCredential> signIn(
           {required String email, required String password}) =>
       _firebaseAuth.signInWithEmailAndPassword(
@@ -26,14 +40,16 @@ abstract class AuthService {
           {required String email, required String password}) =>
       _firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
-
-  static Future<void> signOut() => _firebaseAuth.signOut();
 }
 
 class FlutterPodcastUser {
   final User user;
+  final FirebaseAuth _firebaseAuth;
 
-  FlutterPodcastUser(this.user);
+  FlutterPodcastUser(this.user, FirebaseAuth firebaseAuth)
+      : _firebaseAuth = firebaseAuth;
 
   String get userName => user.displayName ?? 'Missing Display Name';
+
+  void signOut() => _firebaseAuth.signOut();
 }
