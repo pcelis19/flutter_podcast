@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_podcast/main.dart';
 import 'package:flutter_podcast/services/theme_service.dart';
 import 'package:flutter_podcast/utils/theme_utils.dart';
 import 'package:flutter_podcast/widgets/constants.dart';
 import 'package:go_router/go_router.dart';
 
-import 'router.dart';
+import '../router.dart';
 
 class Welcome extends StatelessWidget {
   const Welcome({Key? key}) : super(key: key);

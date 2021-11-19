@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_podcast/audio_player_handler.dart';
-import 'package:flutter_podcast/podcast_displayer.dart';
+import 'package:flutter_podcast/services/audio_player_handler.dart';
+import 'package:flutter_podcast/utils/constants.dart';
+import 'package:flutter_podcast/views/podcast_displayer.dart';
 import 'package:flutter_podcast/services/podcast_service.dart';
-import 'package:flutter_podcast/widgets/constants.dart';
 import 'package:podcast_search/podcast_search.dart';
 import 'package:simple_animations/simple_animations.dart' as animations;
 
 /// given a List of podcasts, this widget will display them in a list
 class PodcastListDisplayer extends StatelessWidget {
   final List<Item> podcastResults;
-  final AudioPlayerHandler audioPlayerHandler;
+  final AudioPlayerHandlerService audioPlayerHandler;
   const PodcastListDisplayer({
     Key? key,
     required this.podcastResults,
@@ -46,7 +46,7 @@ class PodcastTile extends StatelessWidget {
   final int episodes;
   final String imageUrl;
   final Item podcastResult;
-  final AudioPlayerHandler audioPlayerHandler;
+  final AudioPlayerHandlerService audioPlayerHandler;
 
   const PodcastTile({
     Key? key,

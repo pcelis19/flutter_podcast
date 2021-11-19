@@ -2,17 +2,17 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_podcast/audio_player_handler.dart';
+import 'package:flutter_podcast/services/audio_player_handler.dart';
 import 'package:flutter_podcast/filtered_list_displayer/filtered_list_displayer.dart';
+import 'package:flutter_podcast/utils/constants.dart';
 import 'package:flutter_podcast/utils/theme_utils.dart';
-import 'package:flutter_podcast/widgets/constants.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 const kFilterListTag = 'filter_list_tag';
 const kFilterChoicesTag = 'filter_choices_tag';
 
 class Dashboard extends StatefulWidget {
-  final AudioPlayerHandler audioPlayerHandler;
+  final AudioPlayerHandlerService audioPlayerHandler;
   const Dashboard({Key? key, required this.audioPlayerHandler})
       : super(key: key);
 

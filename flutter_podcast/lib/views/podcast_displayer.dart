@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_podcast/audio_player_handler.dart';
+import 'package:flutter_podcast/services/audio_player_handler.dart';
+import 'package:flutter_podcast/utils/constants.dart';
 import 'package:flutter_podcast/utils/time_utils.dart';
 import 'package:flutter_podcast/widgets/constants.dart';
 import 'package:podcast_search/podcast_search.dart';
@@ -7,7 +8,7 @@ import 'package:podcast_search/podcast_search.dart';
 class PodcastDisplayer extends StatefulWidget {
   final Item item;
   final Podcast podcast;
-  final AudioPlayerHandler audioPlayerHandler;
+  final AudioPlayerHandlerService audioPlayerHandler;
   const PodcastDisplayer({
     Key? key,
     required this.item,

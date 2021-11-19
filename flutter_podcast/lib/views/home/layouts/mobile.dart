@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_podcast/global_player.dart';
-import 'package:flutter_podcast/home/home.dart';
-import 'package:flutter_podcast/home/home_drawer.dart';
-import 'package:flutter_podcast/home/home_navigation.dart';
+import 'package:flutter_podcast/utils/constants.dart';
+import 'package:flutter_podcast/widgets/global_player.dart';
 
-const duration = Duration(milliseconds: 600);
+import '../home.dart';
+import '../home_drawer.dart';
+import '../home_navigation.dart';
 
 class HomeMobile extends StatelessWidget {
   final HomeDrawer homeDrawer;
@@ -53,7 +53,7 @@ class AppBarTitle extends StatelessWidget {
       initialData:
           HomeNavigation.indexToTitle(homeNavigation.currentViewInitialData),
       builder: (context, snapshot) => AnimatedSwitcher(
-        duration: duration,
+        duration: duration600ms,
         child: Text(
           snapshot.data ?? '',
           key: ValueKey<String>(snapshot.data ?? ''),

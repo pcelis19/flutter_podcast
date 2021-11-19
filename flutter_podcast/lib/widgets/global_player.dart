@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_podcast/audio_player_handler.dart';
+import 'package:flutter_podcast/services/audio_player_handler.dart';
 
 class GlobalPlayer extends StatelessWidget {
-  final AudioPlayerHandler audioPlayer;
+  final AudioPlayerHandlerService audioPlayer;
   const GlobalPlayer({Key? key, required this.audioPlayer}) : super(key: key);
 
   @override

@@ -1,7 +1,7 @@
 import 'package:podcast_search/podcast_search.dart';
 import 'package:rxdart/rxdart.dart';
 
-class AudioPlayerHandler {
+class AudioPlayerHandlerService {
   final _currentPlayController = BehaviorSubject<FullPodcastEpisodeInfo?>()
     ..sink.add(null);
   Stream<FullPodcastEpisodeInfo?> get currentEpisodeStream =>

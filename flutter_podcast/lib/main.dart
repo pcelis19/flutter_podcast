@@ -1,12 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_podcast/auth_service.dart';
+import 'package:flutter_podcast/services/auth_service.dart';
 import 'package:flutter_podcast/router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'services/theme_service.dart';
-import 'widgets/constants.dart';
+import 'utils/constants.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

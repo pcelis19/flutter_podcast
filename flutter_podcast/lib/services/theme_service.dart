@@ -21,7 +21,7 @@ class ThemePacket {
 class ThemeService {
   static final _themeModeController = BehaviorSubject<ThemePacket>()
     ..sink.add(
-      ThemePacket(ThemeMode.system, Colors.cyan, Colors.pinkAccent),
+      const ThemePacket(ThemeMode.system, Colors.cyan, Colors.pinkAccent),
     );
 
   /// will enable light mode

@@ -21,12 +21,12 @@ https://github.com/csells/go_router/#top-level-redirection
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_podcast/sign_in_up.dart';
-import 'package:flutter_podcast/welcome.dart';
+import 'package:flutter_podcast/views/sign_in_up.dart';
+import 'package:flutter_podcast/views/welcome.dart';
 import 'package:go_router/go_router.dart';
 
-import 'auth_service.dart';
-import 'home/home.dart';
+import 'services/auth_service.dart';
+import 'views/home/home.dart';
 
 class FlutterPodcastMainRouter {
   static const _welcomeRoute = '/';
@@ -60,7 +60,7 @@ class FlutterPodcastMainRouter {
           pageBuilder: (_, state) => MaterialPage(
             key: state.pageKey,
             child: const SignInOut(
-              signTypeScreen: SignTypeScreen.sign_in,
+              signTypeScreen: SignTypeScreen.signIn,
               showOtherSignScreen: true,
             ),
           ),
@@ -71,7 +71,7 @@ class FlutterPodcastMainRouter {
           pageBuilder: (_, state) => MaterialPage(
             key: state.pageKey,
             child: const SignInOut(
-              signTypeScreen: SignTypeScreen.sign_up,
+              signTypeScreen: SignTypeScreen.signUp,
               showOtherSignScreen: true,
             ),
           ),

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_podcast/global_player.dart';
-import 'package:flutter_podcast/home/home.dart';
-import 'package:flutter_podcast/home/home_drawer.dart';
-import 'package:flutter_podcast/home/home_navigation.dart';
-import 'package:flutter_podcast/home/layouts/home_tablet.dart';
+import 'package:flutter_podcast/widgets/global_player.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+
+import '../home.dart';
+import '../home_drawer.dart';
+import '../home_navigation.dart';
+import 'home_tablet.dart';
 
 class HomeDesktop extends StatelessWidget {
   final HomeDrawer homeDrawer;
@@ -21,7 +22,7 @@ class HomeDesktop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OrientationLayoutBuilder(
-      portrait: (cotext) => HomeTablet(
+      portrait: (context) => HomeTablet(
         homeIndexedStack: homeIndexedStack,
         homeDrawer: homeDrawer,
         homeNavigation: homeNavigation,

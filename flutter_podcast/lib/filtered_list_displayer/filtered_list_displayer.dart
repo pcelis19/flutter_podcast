@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_podcast/audio_player_handler.dart';
+import 'package:flutter_podcast/services/audio_player_handler.dart';
 import 'package:flutter_podcast/services/podcast_service.dart';
-import 'package:flutter_podcast/widgets/podcast_list_displyer.dart';
+import 'package:flutter_podcast/widgets/podcast_list_displayer.dart';
 import 'package:podcast_search/podcast_search.dart';
 
 class FilteredListDisplayer extends StatelessWidget {
   // final FilteredListBloc filteredListBloc;
-  final AudioPlayerHandler audioPlayerHandler;
+  final AudioPlayerHandlerService audioPlayerHandler;
   const FilteredListDisplayer({
     Key? key,
     required this.audioPlayerHandler,

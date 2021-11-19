@@ -1,8 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_podcast/auth_service.dart';
-import 'package:flutter_podcast/home/layouts/mobile.dart';
+import 'package:flutter_podcast/services/auth_service.dart';
+import 'package:flutter_podcast/utils/constants.dart';
 import 'package:flutter_podcast/widgets/flutter_podcast_error_widget.dart';
 
 import 'home_navigation.dart';
@@ -180,7 +180,7 @@ class _SignOutButtonState extends State<SignOutButton> {
         child: const Icon(Icons.logout_rounded),
       ),
       title: AnimatedSwitcher(
-        duration: duration,
+        duration: duration600ms,
         child: Align(
           key: ValueKey<String>(title),
           alignment: Alignment.centerLeft,
@@ -189,7 +189,7 @@ class _SignOutButtonState extends State<SignOutButton> {
       ),
       onTap: _isLoading ? null : _onPressed,
       subtitle: AnimatedSwitcher(
-        duration: duration,
+        duration: duration600ms,
         child: LinearProgressIndicator(
           key: ValueKey<bool>(_isLoading),
           color: !_isLoading ? Colors.transparent : null,

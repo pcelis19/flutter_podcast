@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_podcast/audio_player_handler.dart';
-import 'package:flutter_podcast/dashboard.dart';
-import 'package:flutter_podcast/favorite_podcasts.dart';
-import 'package:flutter_podcast/settings.dart';
-import 'package:flutter_podcast/top_podcasts.dart';
+import 'package:flutter_podcast/services/audio_player_handler.dart';
+import 'package:flutter_podcast/views/dashboard.dart';
+import 'package:flutter_podcast/views/favorite_podcasts.dart';
+import 'package:flutter_podcast/views/settings.dart';
+import 'package:flutter_podcast/views/top_podcasts.dart';
 import 'package:rxdart/rxdart.dart';
 
 class HomeNavigation {
   final _currentViewController = BehaviorSubject<int>();
   late final List<Widget> views;
-  HomeNavigation(AudioPlayerHandler audioPlayerHandler) {
+  HomeNavigation(AudioPlayerHandlerService audioPlayerHandler) {
     views = [
       Dashboard(
         audioPlayerHandler: audioPlayerHandler,

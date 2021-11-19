@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_podcast/audio_player_handler.dart';
-import 'package:flutter_podcast/auth_service.dart';
-import 'package:flutter_podcast/global_player.dart';
-import 'package:flutter_podcast/home/home_drawer.dart';
-import 'package:flutter_podcast/home/home_navigation.dart';
-import 'package:flutter_podcast/home/layouts/desktop.dart';
-import 'package:flutter_podcast/home/layouts/mobile.dart';
+import 'package:flutter_podcast/services/audio_player_handler.dart';
+import 'package:flutter_podcast/services/auth_service.dart';
+import 'package:flutter_podcast/widgets/global_player.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
+import 'home_drawer.dart';
+import 'home_navigation.dart';
+import 'layouts/desktop.dart';
 import 'layouts/home_tablet.dart';
+import 'layouts/mobile.dart';
 
 class Home extends StatefulWidget {
   final FlutterPodcastUser user;
@@ -19,7 +19,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final audioPlayer = AudioPlayerHandler();
+  final audioPlayer = AudioPlayerHandlerService();
   late final HomeNavigation homeNavigation;
 
   late final HomeIndexedStack homeIndexedStack;

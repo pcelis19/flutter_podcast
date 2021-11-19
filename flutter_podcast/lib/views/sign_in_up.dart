@@ -1,15 +1,14 @@
-import 'package:firebase_auth/firebase_auth.dart';
+// ignore_for_file: constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_podcast/auth_service.dart';
-import 'package:flutter_podcast/home/layouts/mobile.dart';
-import 'package:flutter_podcast/main.dart';
+import 'package:flutter_podcast/services/auth_service.dart';
+import 'package:flutter_podcast/utils/constants.dart';
 import 'package:flutter_podcast/utils/theme_utils.dart';
 import 'package:flutter_podcast/widgets/constants.dart';
 import 'package:flutter_podcast/widgets/flutter_podcast_error_widget.dart';
-import 'package:go_router/go_router.dart';
 
-enum SignTypeScreen { sign_in, sign_up }
+enum SignTypeScreen { signIn, signUp }
 
 class SignInOut extends StatefulWidget {
   /// will change the view according the sign type screen, if sign in then will
@@ -56,7 +55,7 @@ class _SignInOutState extends State<SignInOut> {
   }
 
   /// if screen is the Sign In
-  bool get isSignInScreen => _signTypeScreen == SignTypeScreen.sign_in;
+  bool get isSignInScreen => _signTypeScreen == SignTypeScreen.signIn;
 
   /// will change the loading screen
   void setLoading(bool loadingState) {
@@ -125,7 +124,7 @@ class _SignInOutState extends State<SignInOut> {
         body: Center(
           child: SimpleDialog(
             title: AnimatedSwitcher(
-              duration: duration,
+              duration: duration600ms,
               child: Text(
                 headerText,
                 key: ValueKey<String>(headerText),
@@ -180,7 +179,7 @@ class _SignInOutState extends State<SignInOut> {
                 child: ElevatedButton(
                   onPressed: _isLoading ? null : submit,
                   child: AnimatedSwitcher(
-                      duration: duration,
+                      duration: duration600ms,
                       child: Text(
                         headerText,
                         key: ValueKey<String>(headerText),
@@ -192,7 +191,7 @@ class _SignInOutState extends State<SignInOut> {
                 child: SizedBox(
                   height: kToolbarHeight,
                   child: AnimatedSwitcher(
-                    duration: duration,
+                    duration: duration600ms,
                     child: _isLoading
                         ? Center(
                             child: Column(
@@ -212,7 +211,7 @@ class _SignInOutState extends State<SignInOut> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: AnimatedSwitcher(
-                  duration: duration,
+                  duration: duration600ms,
                   child: Row(
                     key: ValueKey<String>(headerText),
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -227,13 +226,13 @@ class _SignInOutState extends State<SignInOut> {
                         onPressed: _isLoading
                             ? null
                             : () {
-                                if (_signTypeScreen == SignTypeScreen.sign_in) {
+                                if (_signTypeScreen == SignTypeScreen.signIn) {
                                   setState(() {
-                                    _signTypeScreen = SignTypeScreen.sign_up;
+                                    _signTypeScreen = SignTypeScreen.signUp;
                                   });
                                 } else {
                                   setState(() {
-                                    _signTypeScreen = SignTypeScreen.sign_in;
+                                    _signTypeScreen = SignTypeScreen.signIn;
                                   });
                                 }
                               },

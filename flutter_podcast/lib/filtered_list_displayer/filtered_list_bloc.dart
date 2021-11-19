@@ -19,7 +19,7 @@ class FilteredListBloc {
   /// to the users history
   void updateLists(Podcast podcast) {
     /// todo update the users stats
-    /// e.g. add to the recents to the top of the list
+    /// e.g. add to the recent to the top of the list
     /// update the stats like the things they listen to
     /// comedy, talk
   }
