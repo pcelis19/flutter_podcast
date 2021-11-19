@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_podcast/audio_player_handler.dart';
 import 'package:flutter_podcast/dashboard.dart';
 import 'package:flutter_podcast/favorite_podcasts.dart';
-import 'package:flutter_podcast/settings/settings.dart';
-import 'package:flutter_podcast/top_podcasts/top_podcasts.dart';
+import 'package:flutter_podcast/settings.dart';
+import 'package:flutter_podcast/top_podcasts.dart';
 import 'package:rxdart/rxdart.dart';
 
 class HomeNavigation {

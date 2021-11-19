@@ -21,8 +21,8 @@ https://github.com/csells/go_router/#top-level-redirection
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_podcast/sign_in_up/sign_in_up.dart';
-import 'package:flutter_podcast/welcome/welcome.dart';
+import 'package:flutter_podcast/sign_in_up.dart';
+import 'package:flutter_podcast/welcome.dart';
 import 'package:go_router/go_router.dart';
 
 import 'auth_service.dart';
