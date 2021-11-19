@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_podcast/auth_service/auth_service.dart';
+import 'package:flutter_podcast/auth_service.dart';
 import 'package:flutter_podcast/home/layouts/mobile.dart';
 import 'package:flutter_podcast/widgets/flutter_podcast_error_widget.dart';
 

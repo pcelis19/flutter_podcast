@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_podcast/audio_player/audio_player_handler.dart';
+import 'package:flutter_podcast/audio_player_handler.dart';
 import 'package:flutter_podcast/filtered_list_displayer/filtered_list_displayer.dart';
 import 'package:flutter_podcast/utils/theme_utils.dart';
 import 'package:flutter_podcast/widgets/constants.dart';

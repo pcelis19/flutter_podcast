@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_podcast/audio_player/audio_player_handler.dart';
+import 'package:flutter_podcast/audio_player_handler.dart';
 import 'package:flutter_podcast/services/podcast_service.dart';
 import 'package:flutter_podcast/widgets/podcast_list_displyer.dart';
 import 'package:podcast_search/podcast_search.dart';

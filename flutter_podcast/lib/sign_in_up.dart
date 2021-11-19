@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_podcast/auth_service/auth_service.dart';
+import 'package:flutter_podcast/auth_service.dart';
 import 'package:flutter_podcast/home/layouts/mobile.dart';
 import 'package:flutter_podcast/main.dart';
 import 'package:flutter_podcast/utils/theme_utils.dart';

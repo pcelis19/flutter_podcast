@@ -25,7 +25,7 @@ import 'package:flutter_podcast/sign_in_up/sign_in_up.dart';
 import 'package:flutter_podcast/welcome/welcome.dart';
 import 'package:go_router/go_router.dart';
 
-import 'auth_service/auth_service.dart';
+import 'auth_service.dart';
 import 'home/home.dart';
 
 class FlutterPodcastMainRouter {

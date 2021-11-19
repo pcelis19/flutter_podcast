@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_podcast/audio_player/audio_player_handler.dart';
+import 'package:flutter_podcast/audio_player_handler.dart';
 
 class GlobalPlayer extends StatelessWidget {
   final AudioPlayerHandler audioPlayer;

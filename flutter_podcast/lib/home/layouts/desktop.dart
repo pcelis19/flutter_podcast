@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_podcast/global_player/global_player.dart';
+import 'package:flutter_podcast/global_player.dart';
 import 'package:flutter_podcast/home/home.dart';
 import 'package:flutter_podcast/home/home_drawer.dart';
 import 'package:flutter_podcast/home/home_navigation.dart';
