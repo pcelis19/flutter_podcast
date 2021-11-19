@@ -1,28 +1,26 @@
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/subjects.dart';
 
 class ThemePacket {
+  final FlexScheme flexScheme;
   final ThemeMode themeMode;
-  final MaterialColor primaryColor;
-  final MaterialAccentColor accentColor;
 
-  const ThemePacket(this.themeMode, this.primaryColor, this.accentColor);
-  ThemePacket copyWith(
-          {ThemeMode? themeMode,
-          MaterialColor? primaryColor,
-          MaterialAccentColor? accentColor}) =>
-      ThemePacket(themeMode ?? this.themeMode,
-          primaryColor ?? this.primaryColor, accentColor ?? this.accentColor);
+  const ThemePacket(this.flexScheme, this.themeMode);
+
+  ThemeData get lightMode => FlexThemeData.light(scheme: flexScheme);
+  ThemeData get darkMode => FlexThemeData.dark(scheme: flexScheme);
+
+  ThemePacket copyWith({ThemeMode? themeMode, FlexScheme? flexScheme}) =>
+      ThemePacket(flexScheme ?? this.flexScheme, themeMode ?? this.themeMode);
 
   static const defaultTheme =
-      ThemePacket(ThemeMode.system, Colors.cyan, Colors.pinkAccent);
+      ThemePacket(FlexScheme.mandyRed, ThemeMode.system);
 }
 
 class ThemeService {
   static final _themeModeController = BehaviorSubject<ThemePacket>()
-    ..sink.add(
-      const ThemePacket(ThemeMode.system, Colors.cyan, Colors.pinkAccent),
-    );
+    ..sink.add(ThemePacket.defaultTheme);
 
   /// will enable light mode
   static void enableLightTheme() => _themeModeController.sink
@@ -32,24 +30,16 @@ class ThemeService {
   static void enableSystemTheme() => _themeModeController.sink
       .add(_themeModeController.value.copyWith(themeMode: ThemeMode.system));
 
+  /// changes theme scheme of the application
+  static void changeTheme(FlexScheme flexScheme) => _themeModeController.sink
+      .add(_themeModeController.value.copyWith(flexScheme: flexScheme));
+
   /// will enable dark theme
   static void enableDarkTheme() => _themeModeController.sink
       .add(_themeModeController.value.copyWith(themeMode: ThemeMode.dark));
 
-  /// changes the primary color of the application
-  static void changePrimaryColor(MaterialColor nextPrimaryColor) =>
-      _themeModeController.sink.add(
-          _themeModeController.value.copyWith(primaryColor: nextPrimaryColor));
-
-  /// changes the accent color of the application
-  static void changeAccentColor(MaterialAccentColor nextAccentColor) =>
-      _themeModeController.sink.add(
-          _themeModeController.value.copyWith(accentColor: nextAccentColor));
-
   static void revertToDefaultColors() =>
-      _themeModeController.sink.add(_themeModeController.value.copyWith(
-          primaryColor: ThemePacket.defaultTheme.primaryColor,
-          accentColor: ThemePacket.defaultTheme.accentColor));
+      _themeModeController.sink.add(ThemePacket.defaultTheme);
 
   /// current theme of the application
   static Stream<ThemePacket> get themeModeStream => _themeModeController.stream;

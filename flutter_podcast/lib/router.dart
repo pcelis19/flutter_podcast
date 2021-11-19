@@ -29,23 +29,36 @@ import 'services/auth_service.dart';
 import 'views/home/home.dart';
 
 class FlutterPodcastMainRouter {
+  /// unauth routes
   static const _welcomeRoute = '/';
 
-  static const welcomeName = 'welcome';
+  static const _signUpRoute = 'sign_up';
+  static const _signInRoute = 'sign_in';
 
-  static const _signUpRoute = '/sign_up';
-  static const signUpName = 'signUp';
-  static const _signInRoute = '/sign_in';
-  static const signInName = 'sign in';
+  /// unauth names
+  static const kWelcomeName = 'welcome';
+  static const kSignUpName = 'sign up';
+  static const kSignInName = 'sign in';
+
+  /// auth routes
   static const _homeRoute = '/home';
-  static const homeName = 'home';
+
+  /// auth names
+  static const kHomeName = 'home';
+
+  /// router of application
   late final GoRouter router;
-  final AuthService authService;
-  FlutterPodcastMainRouter(this.authService) {
+
+  /// auth service of the application
+  final AuthService _authService;
+
+  ///constructor
+  FlutterPodcastMainRouter(AuthService authService)
+      : _authService = authService {
     router = GoRouter(
       routes: [
         GoRoute(
-          name: homeName,
+          name: kHomeName,
           path: _homeRoute,
           pageBuilder: (_, state) => MaterialPage(
             key: state.pageKey,
@@ -55,35 +68,37 @@ class FlutterPodcastMainRouter {
           ),
         ),
         GoRoute(
-          name: signInName,
-          path: _signInRoute,
-          pageBuilder: (_, state) => MaterialPage(
-            key: state.pageKey,
-            child: const SignInOut(
-              signTypeScreen: SignTypeScreen.signIn,
-              showOtherSignScreen: true,
-            ),
-          ),
-        ),
-        GoRoute(
-          name: signUpName,
-          path: _signUpRoute,
-          pageBuilder: (_, state) => MaterialPage(
-            key: state.pageKey,
-            child: const SignInOut(
-              signTypeScreen: SignTypeScreen.signUp,
-              showOtherSignScreen: true,
-            ),
-          ),
-        ),
-        GoRoute(
-          name: welcomeName,
+          name: kWelcomeName,
           path: _welcomeRoute,
           pageBuilder: (_, state) => MaterialPage(
             key: state.pageKey,
             child: const Welcome(),
           ),
-        )
+          routes: [
+            GoRoute(
+              name: kSignInName,
+              path: _signInRoute,
+              pageBuilder: (_, state) => MaterialPage(
+                key: state.pageKey,
+                child: const SignInOut(
+                  signTypeScreen: SignTypeScreen.signIn,
+                  showOtherSignScreen: true,
+                ),
+              ),
+            ),
+            GoRoute(
+              name: kSignUpName,
+              path: _signUpRoute,
+              pageBuilder: (_, state) => MaterialPage(
+                key: state.pageKey,
+                child: const SignInOut(
+                  signTypeScreen: SignTypeScreen.signUp,
+                  showOtherSignScreen: true,
+                ),
+              ),
+            ),
+          ],
+        ),
       ],
       redirect: (state) {
         bool isLoggedIn = authService.currentUser != null;
@@ -131,9 +146,9 @@ class PageNotFoundPage extends StatelessWidget {
             child: TextButton(
                 onPressed: () {
                   if (_isLoggedIn) {
-                    context.goNamed(FlutterPodcastMainRouter.homeName);
+                    context.goNamed(FlutterPodcastMainRouter.kHomeName);
                   } else {
-                    context.goNamed(FlutterPodcastMainRouter.welcomeName);
+                    context.goNamed(FlutterPodcastMainRouter.kWelcomeName);
                   }
                 },
                 child: Text(_isLoggedIn ? 'Go Home' : 'Go To Main Page')),

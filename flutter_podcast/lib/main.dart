@@ -40,16 +40,12 @@ class _FlutterPodcastAppState extends State<FlutterPodcastApp> {
           routerDelegate: _mainRouter.router.routerDelegate,
           debugShowCheckedModeBanner: false,
           themeMode: packet.themeMode,
-          theme: ThemeData.light().copyWith(
+          theme: snapshot.data?.lightMode.copyWith(
             textTheme: GoogleFonts.interTextTheme(),
-            primaryColor: packet.primaryColor,
-            accentColor: packet.accentColor,
-            pageTransitionsTheme: pageTransitionTheme,
           ),
-          darkTheme: ThemeData.dark().copyWith(
-            textTheme: GoogleFonts.interTextTheme(),
-            primaryColor: packet.primaryColor,
-            accentColor: packet.accentColor,
+          darkTheme: snapshot.data?.darkMode.copyWith(
+            textTheme: GoogleFonts.interTextTheme(
+                ThemeData(brightness: Brightness.dark).textTheme),
             pageTransitionsTheme: pageTransitionTheme,
           ),
         );
