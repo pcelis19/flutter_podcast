@@ -2,11 +2,13 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_podcast/router.dart';
 import 'package:flutter_podcast/services/audio_player_handler.dart';
 import 'package:flutter_podcast/filtered_list_displayer/filtered_list_displayer.dart';
 import 'package:flutter_podcast/services/auth_service.dart';
 import 'package:flutter_podcast/utils/constants.dart';
 import 'package:flutter_podcast/utils/theme_utils.dart';
+import 'package:go_router/go_router.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 const kFilterListTag = 'filter_list_tag';
@@ -83,6 +85,8 @@ class _DashboardState extends State<Dashboard> {
                 child: Align(
                   alignment: Alignment.topRight,
                   child: ListTile(
+                    onTap: () => context
+                        .go(FlutterPodcastMainRouter.updateProfileDetailsRoute),
                     title: Text(
                       'Hello, ' + widget.user.userName,
                     ),

@@ -71,6 +71,13 @@ class _UpdateProfileDetailsState extends State<UpdateProfileDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: () => widget.user.signOut(),
+              icon: const Icon(Icons.logout))
+        ],
+      ),
       body: SimpleDialog(
         contentPadding: const EdgeInsets.all(12),
         title: const Text('Complete Sign Up Process'),
@@ -173,34 +180,6 @@ class _UpdateProfileDetailsState extends State<UpdateProfileDetails> {
                     child: const Text('submit'),
                   ),
                 ),
-                w8SizedBox,
-                IconButton(
-                  onPressed: () => showDialog(
-                    context: context,
-                    builder: (context) => SimpleDialog(
-                      title: const Center(child: Text('Info')),
-                      contentPadding: const EdgeInsets.all(12),
-                      children: [
-                        const Text(
-                          'The more data points we can collect then the better we can suggest podcasts',
-                        ),
-                        h8SizedBox,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            TextButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: const Text('That\'s wierd')),
-                            ElevatedButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: const Text('Ok')),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  icon: const Icon(Icons.help),
-                ),
               ],
             ),
           ),
@@ -213,6 +192,33 @@ class _UpdateProfileDetailsState extends State<UpdateProfileDetails> {
                 : Container(),
           )
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.help),
+        onPressed: () => showDialog(
+          context: context,
+          builder: (context) => SimpleDialog(
+            title: const Center(child: Text('Info')),
+            contentPadding: const EdgeInsets.all(12),
+            children: [
+              const Text(
+                'The more data points we can collect then the better we can suggest podcasts',
+              ),
+              h8SizedBox,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('That\'s wierd')),
+                  ElevatedButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('Ok')),
+                ],
+              )
+            ],
+          ),
+        ),
       ),
     );
   }

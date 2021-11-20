@@ -43,7 +43,7 @@ class FlutterPodcastMainRouter {
 
   /// auth routes
   static const _homeRoute = '/home';
-  static const _updateProfileDetailsRoute = '/update_profile_details';
+  static const updateProfileDetailsRoute = '/update_profile_details';
 
   /// auth names
   static const kHomeName = 'home';
@@ -70,7 +70,7 @@ class FlutterPodcastMainRouter {
           ),
         ),
         GoRoute(
-          path: _updateProfileDetailsRoute,
+          path: updateProfileDetailsRoute,
           pageBuilder: (_, state) => MaterialPage(
             key: state.pageKey,
             child: UpdateProfileDetails(user: _authService.currentUser!),
@@ -119,13 +119,8 @@ class FlutterPodcastMainRouter {
         if (isLoggedIn && isGoingToAuthRoute) {
           bool isVerified = user.isVerified;
           bool isGoingToHome = state.location == _homeRoute;
-          bool isGoingToVerifyScreen =
-              state.location == _updateProfileDetailsRoute;
           if (!isVerified && isGoingToHome) {
-            return _updateProfileDetailsRoute;
-          }
-          if (isVerified && isGoingToVerifyScreen) {
-            return _homeRoute;
+            return updateProfileDetailsRoute;
           }
         }
         if (!isLoggedIn && isGoingToAuthRoute) {
@@ -149,7 +144,7 @@ class FlutterPodcastMainRouter {
   }
 
   static bool _isAuthRoute(String location) =>
-      [_homeRoute, _updateProfileDetailsRoute].contains(location);
+      [_homeRoute, updateProfileDetailsRoute].contains(location);
 }
 
 class PageNotFoundPage extends StatelessWidget {
