@@ -16,8 +16,8 @@ class Settings extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: StreamBuilder<ThemePacket>(
-          stream: ThemeService.themeModeStream,
-          initialData: ThemeService.themeModeInitialData,
+          stream: ThemeService.instance.themeModeStream,
+          initialData: ThemeService.instance.themeModeInitialData,
           builder: (context, snapshot) {
             return SettingsList(
               backgroundColor: Colors.transparent,
@@ -31,16 +31,16 @@ class Settings extends StatelessWidget {
                       title: 'Enable Dark Mode',
                       onToggle: (value) {
                         if (isLightMode(context)) {
-                          ThemeService.enableDarkTheme();
+                          ThemeService.instance.enableDarkTheme();
                         } else {
-                          ThemeService.enableLightTheme();
+                          ThemeService.instance.enableLightTheme();
                         }
                       },
                       switchValue: !isLightMode(context),
                     ),
                     SettingsTile(
                       title: 'Theme Scheme',
-                      subtitle: spaceCamelCase((snapshot.data?.flexScheme ??
+                      subtitle: _spaceCamelCase((snapshot.data?.flexScheme ??
                               ThemePacket.defaultTheme)
                           .toString()
                           .substring(11)),
@@ -57,59 +57,14 @@ class Settings extends StatelessWidget {
                           pageBuilder: (_, animation, pageBuilderAnimation) {
                             return FadeTransition(
                               opacity: animation,
-                              child: SimpleDialog(
-                                title: const Text(
-                                  'Choose a Theme Scheme',
-                                ),
-                                children: <Widget>[
-                                  ListTile(
-                                    title: const Text('Theme Scheme'),
-                                    trailing: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: const [
-                                        ModeLabel(
-                                          themeMode: ThemeMode.light,
-                                        ),
-                                        w8SizedBox,
-                                        ModeLabel(
-                                          themeMode: ThemeMode.dark,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ]..addAll(FlexScheme.values
-                                    .map<Widget>(
-                                      (e) => ListTile(
-                                        onTap: () => Navigator.pop(context, e),
-                                        title: Text(
-                                          spaceCamelCase(
-                                              e.toString().substring(11)),
-                                        ),
-                                        selected:
-                                            e == snapshot.data?.flexScheme,
-                                        trailing: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            ThemePreviewColors(
-                                              themeMode: ThemeMode.light,
-                                              scheme: e,
-                                            ),
-                                            w8SizedBox,
-                                            ThemePreviewColors(
-                                              themeMode: ThemeMode.dark,
-                                              scheme: e,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    )
-                                    .toList()),
-                              ),
+                              child: ChooseThemeScheme(
+                                  currentScheme: snapshot.data?.flexScheme ??
+                                      ThemePacket.defaultTheme.flexScheme),
                             );
                           },
                         ).then((value) {
                           if (value != null) {
-                            ThemeService.changeTheme(value);
+                            ThemeService.instance.changeTheme(value);
                           }
                         });
                       },
@@ -118,7 +73,7 @@ class Settings extends StatelessWidget {
                       title: 'Default Theme',
                       onToggle: (enabled) {
                         if (enabled) {
-                          ThemeService.revertToDefaultColors();
+                          ThemeService.instance.revertToDefaultColors();
                         }
                       },
                       switchValue: snapshot.data?.flexScheme ==
@@ -142,12 +97,69 @@ class Settings extends StatelessWidget {
           }),
     );
   }
-
-  String spaceCamelCase(String original) => basicUtils.StringUtils.capitalize(
-      basicUtils.StringUtils.camelCaseToUpperUnderscore(original)
-          .replaceAll("_", " "),
-      allWords: true);
 }
+
+/// displays available themes, will pop with value that the user picks, can return null
+class ChooseThemeScheme extends StatelessWidget {
+  final FlexScheme currentScheme;
+  const ChooseThemeScheme({Key? key, required this.currentScheme})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SimpleDialog(
+      title: const Text(
+        'Choose a Theme Scheme',
+      ),
+      children: <Widget>[
+        ListTile(
+          title: const Text('Theme Scheme'),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: const [
+              ModeLabel(
+                themeMode: ThemeMode.light,
+              ),
+              w8SizedBox,
+              ModeLabel(
+                themeMode: ThemeMode.dark,
+              ),
+            ],
+          ),
+        ),
+      ]..addAll(FlexScheme.values
+          .map<Widget>(
+            (e) => ListTile(
+              onTap: () => Navigator.pop(context, e),
+              title: Text(
+                _spaceCamelCase(e.toString().substring(11)),
+              ),
+              selected: e == currentScheme,
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ThemePreviewColors(
+                    themeMode: ThemeMode.light,
+                    scheme: e,
+                  ),
+                  w8SizedBox,
+                  ThemePreviewColors(
+                    themeMode: ThemeMode.dark,
+                    scheme: e,
+                  ),
+                ],
+              ),
+            ),
+          )
+          .toList()),
+    );
+  }
+}
+
+String _spaceCamelCase(String original) => basicUtils.StringUtils.capitalize(
+    basicUtils.StringUtils.camelCaseToUpperUnderscore(original)
+        .replaceAll("_", " "),
+    allWords: true);
 
 class ModeLabel extends StatelessWidget {
   final ThemeMode themeMode;

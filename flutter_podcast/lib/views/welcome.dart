@@ -66,9 +66,9 @@ class Welcome extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             if (isLightMode(context)) {
-              ThemeService.enableDarkTheme();
+              ThemeService.instance.enableDarkTheme();
             } else {
-              ThemeService.enableLightTheme();
+              ThemeService.instance.enableLightTheme();
             }
           },
           child: Icon(
