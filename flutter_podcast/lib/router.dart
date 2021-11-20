@@ -22,6 +22,7 @@ https://github.com/csells/go_router/#top-level-redirection
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_podcast/views/sign_in_up.dart';
+import 'package:flutter_podcast/views/verify_profile_details.dart';
 import 'package:flutter_podcast/views/welcome.dart';
 import 'package:go_router/go_router.dart';
 
@@ -42,6 +43,7 @@ class FlutterPodcastMainRouter {
 
   /// auth routes
   static const _homeRoute = '/home';
+  static const _updateProfileDetailsRoute = '/update_profile_details';
 
   /// auth names
   static const kHomeName = 'home';
@@ -65,6 +67,13 @@ class FlutterPodcastMainRouter {
             child: Home(
               user: authService.currentUser!,
             ),
+          ),
+        ),
+        GoRoute(
+          path: _updateProfileDetailsRoute,
+          pageBuilder: (_, state) => MaterialPage(
+            key: state.pageKey,
+            child: UpdateProfileDetails(user: _authService.currentUser!),
           ),
         ),
         GoRoute(
@@ -101,10 +110,23 @@ class FlutterPodcastMainRouter {
         ),
       ],
       redirect: (state) {
-        bool isLoggedIn = authService.currentUser != null;
+        final user = authService.currentUser;
+        bool isLoggedIn = user != null;
         bool isGoingToAuthRoute = _isAuthRoute(state.location);
         if (isLoggedIn && !isGoingToAuthRoute) {
           return _homeRoute;
+        }
+        if (isLoggedIn && isGoingToAuthRoute) {
+          bool isVerified = user.isVerified;
+          bool isGoingToHome = state.location == _homeRoute;
+          bool isGoingToVerifyScreen =
+              state.location == _updateProfileDetailsRoute;
+          if (!isVerified && isGoingToHome) {
+            return _updateProfileDetailsRoute;
+          }
+          if (isVerified && isGoingToVerifyScreen) {
+            return _homeRoute;
+          }
         }
         if (!isLoggedIn && isGoingToAuthRoute) {
           return _welcomeRoute;
@@ -126,7 +148,8 @@ class FlutterPodcastMainRouter {
     }
   }
 
-  static bool _isAuthRoute(String location) => [_homeRoute].contains(location);
+  static bool _isAuthRoute(String location) =>
+      [_homeRoute, _updateProfileDetailsRoute].contains(location);
 }
 
 class PageNotFoundPage extends StatelessWidget {
@@ -139,7 +162,7 @@ class PageNotFoundPage extends StatelessWidget {
       child: SimpleDialog(
         title: Text(
           (kIsWeb ? '(404): ' : '') + 'Page Not Found',
-          style: Theme.of(context).textTheme.headline1,
+          style: Theme.of(context).textTheme.headline4,
         ),
         children: [
           Center(
@@ -151,7 +174,8 @@ class PageNotFoundPage extends StatelessWidget {
                     context.goNamed(FlutterPodcastMainRouter.kWelcomeName);
                   }
                 },
-                child: Text(_isLoggedIn ? 'Go Home' : 'Go To Main Page')),
+                child: Text(
+                    _isLoggedIn ? 'Go To Dashboard' : 'Go To Landing Page')),
           )
         ],
       ),

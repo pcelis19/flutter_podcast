@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_podcast/services/audio_player_handler.dart';
+import 'package:flutter_podcast/services/auth_service.dart';
 import 'package:flutter_podcast/views/dashboard.dart';
 import 'package:flutter_podcast/views/favorite_podcasts.dart';
 import 'package:flutter_podcast/views/settings.dart';
@@ -9,9 +10,11 @@ import 'package:rxdart/rxdart.dart';
 class HomeNavigation {
   final _currentViewController = BehaviorSubject<int>();
   late final List<Widget> views;
-  HomeNavigation(AudioPlayerHandlerService audioPlayerHandler) {
+  final FlutterPodcastUser user;
+  HomeNavigation(AudioPlayerHandlerService audioPlayerHandler, this.user) {
     views = [
       Dashboard(
+        user: user,
         audioPlayerHandler: audioPlayerHandler,
       ),
       const TopPodcasts(),

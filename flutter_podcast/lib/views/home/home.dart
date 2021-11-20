@@ -29,7 +29,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    homeNavigation = HomeNavigation(audioPlayer);
+    homeNavigation = HomeNavigation(audioPlayer, widget.user);
     homeIndexedStack = HomeIndexedStack(homeNavigation: homeNavigation);
     homeDrawer = HomeDrawer(
       homeNavigation: homeNavigation,

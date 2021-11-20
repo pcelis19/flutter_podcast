@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_podcast/services/theme_service.dart';
 import 'package:flutter_podcast/utils/theme_utils.dart';
 import 'package:settings_ui/settings_ui.dart';
+import 'package:basic_utils/basic_utils.dart' as basicUtils;
 
 class Settings extends StatelessWidget {
   const Settings({
@@ -59,7 +60,8 @@ class Settings extends StatelessWidget {
                                         onPressed: () =>
                                             Navigator.pop(context, e),
                                         child: Text(
-                                          e.toString(),
+                                          spaceCamelCase(
+                                              e.toString().substring(11)),
                                         ),
                                       ),
                                     )
@@ -109,4 +111,9 @@ class Settings extends StatelessWidget {
           }),
     );
   }
+
+  String spaceCamelCase(String original) => basicUtils.StringUtils.capitalize(
+      basicUtils.StringUtils.camelCaseToUpperUnderscore(original)
+          .replaceAll("_", " "),
+      allWords: true);
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_podcast/services/audio_player_handler.dart';
 import 'package:flutter_podcast/filtered_list_displayer/filtered_list_displayer.dart';
+import 'package:flutter_podcast/services/auth_service.dart';
 import 'package:flutter_podcast/utils/constants.dart';
 import 'package:flutter_podcast/utils/theme_utils.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -13,7 +14,9 @@ const kFilterChoicesTag = 'filter_choices_tag';
 
 class Dashboard extends StatefulWidget {
   final AudioPlayerHandlerService audioPlayerHandler;
-  const Dashboard({Key? key, required this.audioPlayerHandler})
+  final FlutterPodcastUser user;
+  const Dashboard(
+      {Key? key, required this.audioPlayerHandler, required this.user})
       : super(key: key);
 
   @override
@@ -75,14 +78,16 @@ class _DashboardState extends State<Dashboard> {
           children: [
             Padding(
               padding: edgeInsets,
-              child: const SizedBox(
+              child: SizedBox(
                 height: kToolbarHeight,
                 child: Align(
                   alignment: Alignment.topRight,
                   child: ListTile(
-                    title: Text('Guest'),
-                    subtitle: Text('Sign in, and update your status!'),
-                    trailing: CircleAvatar(
+                    title: Text(
+                      'Hello, ' + widget.user.userName,
+                    ),
+                    subtitle: const Text('Update your status!'),
+                    trailing: const CircleAvatar(
                       child: Icon(Icons.person),
                     ),
                   ),

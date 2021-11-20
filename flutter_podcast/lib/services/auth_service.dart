@@ -40,6 +40,9 @@ class AuthService extends ChangeNotifier {
           {required String email, required String password}) =>
       _firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
+
+  /// throw if there is no current user
+  Future<void> syncUserInformation() async => _currentUser!.user.reload();
 }
 
 class FlutterPodcastUser {
@@ -50,6 +53,7 @@ class FlutterPodcastUser {
       : _firebaseAuth = firebaseAuth;
 
   String get userName => user.displayName ?? 'Missing Display Name';
-
+  bool get isVerified =>
+      user.displayName != null && user.displayName!.isNotEmpty;
   void signOut() => _firebaseAuth.signOut();
 }

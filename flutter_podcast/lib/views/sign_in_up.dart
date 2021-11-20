@@ -7,6 +7,7 @@ import 'package:flutter_podcast/utils/constants.dart';
 import 'package:flutter_podcast/utils/theme_utils.dart';
 import 'package:flutter_podcast/widgets/constants.dart';
 import 'package:flutter_podcast/widgets/flutter_podcast_error_widget.dart';
+import 'package:flutter_podcast/widgets/flutter_podcast_text_field.dart';
 
 enum SignTypeScreen { signIn, signUp }
 
@@ -133,42 +134,37 @@ class _SignInOutState extends State<SignInOut> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: TextField(
+                child: FlutterPodcastTextField(
                   focusNode: _emailNode,
                   keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    hintText: 'fooBar@flutter.io.com',
-                    labelText: 'email',
-                    errorText: _emailErrorText,
-                  ),
-                  onSubmitted: (value) {
-                    FocusScope.of(context).requestFocus(_passwordNode);
-                  },
+                  hintText: 'fooBar@flutter.io.com',
+                  labelText: 'email',
+                  errorText: _emailErrorText,
+                  onSubmitted: (value) =>
+                      FocusScope.of(context).requestFocus(_passwordNode),
                   textInputAction: TextInputAction.next,
                   controller: _emailController,
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: TextField(
+                child: FlutterPodcastTextField(
                   keyboardType: TextInputType.visiblePassword,
                   focusNode: _passwordNode,
-                  decoration: InputDecoration(
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          _hidePassword = !_hidePassword;
-                        });
-                      },
-                      icon: Icon(_hidePassword
-                          ? Icons.visibility_off
-                          : Icons.visibility),
-                    ),
-                    border: const OutlineInputBorder(),
-                    errorText: _passwordErrorText,
-                    labelText: 'password',
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _hidePassword = !_hidePassword;
+                      });
+                    },
+                    icon: Icon(_hidePassword
+                        ? Icons.visibility_off
+                        : Icons.visibility),
                   ),
+                  hintText: null,
+                  onSubmitted: _isLoading ? null : (_) => submit.call(),
+                  errorText: _passwordErrorText,
+                  labelText: 'password',
                   textInputAction: TextInputAction.done,
                   controller: _passwordController,
                   obscureText: _hidePassword,
