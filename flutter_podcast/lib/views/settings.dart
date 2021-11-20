@@ -1,6 +1,7 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_podcast/services/theme_service.dart';
+import 'package:flutter_podcast/utils/constants.dart';
 import 'package:flutter_podcast/utils/theme_utils.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:basic_utils/basic_utils.dart' as basicUtils;
@@ -38,9 +39,15 @@ class Settings extends StatelessWidget {
                       switchValue: !isLightMode(context),
                     ),
                     SettingsTile(
-                      title: 'Primary Color',
-                      trailing: CircleAvatar(
-                        backgroundColor: Theme.of(context).primaryColor,
+                      title: 'Theme Scheme',
+                      subtitle: spaceCamelCase((snapshot.data?.flexScheme ??
+                              ThemePacket.defaultTheme)
+                          .toString()
+                          .substring(11)),
+                      trailing: ThemePreviewColors(
+                        themeMode: snapshot.data?.themeMode ?? ThemeMode.system,
+                        scheme: snapshot.data?.flexScheme ??
+                            ThemePacket.defaultTheme.flexScheme,
                       ),
                       onPressed: (context) {
                         showGeneralDialog<FlexScheme>(
@@ -54,25 +61,49 @@ class Settings extends StatelessWidget {
                                 title: const Text(
                                   'Choose a Theme Scheme',
                                 ),
-                                children: FlexScheme.values
+                                children: <Widget>[
+                                  ListTile(
+                                    title: const Text('Theme Scheme'),
+                                    trailing: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: const [
+                                        ModeLabel(
+                                          themeMode: ThemeMode.light,
+                                        ),
+                                        w8SizedBox,
+                                        ModeLabel(
+                                          themeMode: ThemeMode.dark,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ]..addAll(FlexScheme.values
                                     .map<Widget>(
-                                      (e) => TextButton(
-                                        onPressed: () =>
-                                            Navigator.pop(context, e),
-                                        child: Text(
+                                      (e) => ListTile(
+                                        onTap: () => Navigator.pop(context, e),
+                                        title: Text(
                                           spaceCamelCase(
                                               e.toString().substring(11)),
                                         ),
+                                        selected:
+                                            e == snapshot.data?.flexScheme,
+                                        trailing: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            ThemePreviewColors(
+                                              themeMode: ThemeMode.light,
+                                              scheme: e,
+                                            ),
+                                            w8SizedBox,
+                                            ThemePreviewColors(
+                                              themeMode: ThemeMode.dark,
+                                              scheme: e,
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     )
-                                    .toList()
-                                  ..add(Center(
-                                    child: ElevatedButton(
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(),
-                                      child: const Text('Cancel'),
-                                    ),
-                                  )),
+                                    .toList()),
                               ),
                             );
                           },
@@ -116,4 +147,117 @@ class Settings extends StatelessWidget {
       basicUtils.StringUtils.camelCaseToUpperUnderscore(original)
           .replaceAll("_", " "),
       allWords: true);
+}
+
+class ModeLabel extends StatelessWidget {
+  final ThemeMode themeMode;
+  const ModeLabel({
+    Key? key,
+    required this.themeMode,
+  }) : super(key: key);
+  String get _title {
+    switch (themeMode) {
+      case ThemeMode.system:
+        return 'system';
+      case ThemeMode.light:
+        return 'light';
+      case ThemeMode.dark:
+        return 'dark';
+    }
+  }
+
+  Color get _backgroundColor {
+    switch (themeMode) {
+      case ThemeMode.system:
+        return Colors.grey;
+      case ThemeMode.light:
+        return Colors.white;
+      case ThemeMode.dark:
+        return Colors.black;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return CircleAvatar(
+      radius: 16,
+      backgroundColor: _backgroundColor,
+      child: SizedBox(
+        width: 32,
+        child: Center(
+          child: Text(
+            _title,
+            style: TextStyle(
+              fontWeight: Theme.of(context).textTheme.caption?.fontWeight,
+              fontSize: Theme.of(context).textTheme.caption?.fontSize,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ThemePreviewColors extends StatelessWidget {
+  final ThemeMode themeMode;
+  final FlexScheme scheme;
+  const ThemePreviewColors(
+      {Key? key, required this.themeMode, required this.scheme})
+      : super(key: key);
+  ThemeData get flexThemeData {
+    switch (themeMode) {
+      case ThemeMode.system:
+        return FlexThemeData.light(scheme: scheme);
+      case ThemeMode.light:
+        return FlexThemeData.light(scheme: scheme);
+      case ThemeMode.dark:
+        return FlexThemeData.dark(scheme: scheme);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipOval(
+      child: SizedBox(
+        height: 32,
+        width: 32,
+        child: Column(
+          children: [
+            Expanded(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      color: flexThemeData.colorScheme.primary,
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      color: flexThemeData.colorScheme.primaryVariant,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      color: flexThemeData.colorScheme.secondary,
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      color: flexThemeData.colorScheme.secondaryVariant,
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
 }

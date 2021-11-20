@@ -42,6 +42,7 @@ class HomeDrawer extends StatelessWidget {
                         decoration: const InputDecoration(
                           icon: Icon(Icons.search),
                           hintText: 'Search Podcast',
+                          fillColor: Colors.transparent,
                           border: UnderlineInputBorder(),
                         ),
                         onSubmitted: (value) {

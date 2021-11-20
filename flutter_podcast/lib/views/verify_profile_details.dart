@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_podcast/router.dart';
 import 'package:flutter_podcast/services/auth_service.dart';
 import 'package:flutter_podcast/utils/constants.dart';
 import 'package:flutter_podcast/widgets/constants.dart';
 import 'package:flutter_podcast/widgets/flutter_podcast_text_field.dart';
+import 'package:go_router/go_router.dart';
 import 'package:string_validator/string_validator.dart' as validator;
 
 class UpdateProfileDetails extends StatefulWidget {
   final FlutterPodcastUser user;
-  const UpdateProfileDetails({Key? key, required this.user}) : super(key: key);
+  final String title;
+  const UpdateProfileDetails(
+      {Key? key, required this.user, required this.title})
+      : super(key: key);
 
   @override
   State<UpdateProfileDetails> createState() => _UpdateProfileDetailsState();
@@ -34,6 +39,8 @@ class _UpdateProfileDetailsState extends State<UpdateProfileDetails> {
       _nameErrors = _verifyName(_nameController.text);
     });
   }
+
+  bool get _canSubmit => _nameErrors == null && !_isLoading;
 
   String? _verifyName(String value) {
     if (value.isEmpty) {
@@ -72,6 +79,14 @@ class _UpdateProfileDetailsState extends State<UpdateProfileDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: widget.user.isVerified
+            ? IconButton(
+                onPressed: () =>
+                    context.goNamed(FlutterPodcastMainRouter.kHomeName),
+                icon: const Icon(Icons.arrow_back_ios),
+              )
+            : null,
+        title: Text(widget.title),
         actions: [
           IconButton(
               onPressed: () => widget.user.signOut(),
@@ -80,7 +95,6 @@ class _UpdateProfileDetailsState extends State<UpdateProfileDetails> {
       ),
       body: SimpleDialog(
         contentPadding: const EdgeInsets.all(12),
-        title: const Text('Complete Sign Up Process'),
         children: [
           h8SizedBox,
           FlutterPodcastTextField(
@@ -89,7 +103,7 @@ class _UpdateProfileDetailsState extends State<UpdateProfileDetails> {
             hintText: 'Jane',
             labelText: 'Display Name',
             errorText: _nameErrors,
-            onSubmitted: _isLoading ? null : (value) => _submit(),
+            onSubmitted: _canSubmit ? (value) => _submit() : null,
             keyboardType: TextInputType.name,
             controller: _nameController,
           ),
@@ -176,7 +190,7 @@ class _UpdateProfileDetailsState extends State<UpdateProfileDetails> {
               children: [
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: _submit,
+                    onPressed: _canSubmit ? _submit : null,
                     child: const Text('submit'),
                   ),
                 ),
@@ -210,7 +224,7 @@ class _UpdateProfileDetailsState extends State<UpdateProfileDetails> {
                 children: [
                   TextButton(
                       onPressed: () => Navigator.pop(context),
-                      child: const Text('That\'s wierd')),
+                      child: const Text('That\'s weird')),
                   ElevatedButton(
                       onPressed: () => Navigator.pop(context),
                       child: const Text('Ok')),
@@ -231,6 +245,7 @@ class _UpdateProfileDetailsState extends State<UpdateProfileDetails> {
       }
       await widget.user.user.updateDisplayName(_nameController.text);
       await AuthService.instance.syncUserInformation();
+      context.goNamed(FlutterPodcastMainRouter.kHomeName);
     } catch (e) {
       await showDialog(
         context: context,

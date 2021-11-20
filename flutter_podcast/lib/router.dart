@@ -73,7 +73,10 @@ class FlutterPodcastMainRouter {
           path: updateProfileDetailsRoute,
           pageBuilder: (_, state) => MaterialPage(
             key: state.pageKey,
-            child: UpdateProfileDetails(user: _authService.currentUser!),
+            child: UpdateProfileDetails(
+              user: _authService.currentUser!,
+              title: 'Complete Sign Up Process',
+            ),
           ),
         ),
         GoRoute(
