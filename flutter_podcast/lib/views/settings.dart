@@ -4,7 +4,7 @@ import 'package:flutter_podcast/services/theme_service.dart';
 import 'package:flutter_podcast/utils/constants.dart';
 import 'package:flutter_podcast/utils/theme_utils.dart';
 import 'package:settings_ui/settings_ui.dart';
-import 'package:basic_utils/basic_utils.dart' as basicUtils;
+import 'package:basic_utils/basic_utils.dart' as basic_utils;
 
 class Settings extends StatelessWidget {
   const Settings({
@@ -127,37 +127,38 @@ class ChooseThemeScheme extends StatelessWidget {
             ],
           ),
         ),
-      ]..addAll(FlexScheme.values
-          .map<Widget>(
-            (e) => ListTile(
-              onTap: () => Navigator.pop(context, e),
-              title: Text(
-                _spaceCamelCase(e.toString().substring(11)),
+        ...FlexScheme.values
+            .map<Widget>(
+              (e) => ListTile(
+                onTap: () => Navigator.pop(context, e),
+                title: Text(
+                  _spaceCamelCase(e.toString().substring(11)),
+                ),
+                selected: e == currentScheme,
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ThemePreviewColors(
+                      themeMode: ThemeMode.light,
+                      scheme: e,
+                    ),
+                    w8SizedBox,
+                    ThemePreviewColors(
+                      themeMode: ThemeMode.dark,
+                      scheme: e,
+                    ),
+                  ],
+                ),
               ),
-              selected: e == currentScheme,
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ThemePreviewColors(
-                    themeMode: ThemeMode.light,
-                    scheme: e,
-                  ),
-                  w8SizedBox,
-                  ThemePreviewColors(
-                    themeMode: ThemeMode.dark,
-                    scheme: e,
-                  ),
-                ],
-              ),
-            ),
-          )
-          .toList()),
+            )
+            .toList(),
+      ],
     );
   }
 }
 
-String _spaceCamelCase(String original) => basicUtils.StringUtils.capitalize(
-    basicUtils.StringUtils.camelCaseToUpperUnderscore(original)
+String _spaceCamelCase(String original) => basic_utils.StringUtils.capitalize(
+    basic_utils.StringUtils.camelCaseToUpperUnderscore(original)
         .replaceAll("_", " "),
     allWords: true);
 

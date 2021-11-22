@@ -13,8 +13,8 @@ class GlobalPlayer extends StatelessWidget {
           begin: Alignment.bottomLeft,
           end: Alignment.topRight,
           colors: [
-            Theme.of(context).accentColor.withOpacity(.2),
-            Theme.of(context).primaryColor.withOpacity(.2),
+            Theme.of(context).colorScheme.secondary.withOpacity(.2),
+            Theme.of(context).colorScheme.primary.withOpacity(.2),
           ],
         ),
       ),

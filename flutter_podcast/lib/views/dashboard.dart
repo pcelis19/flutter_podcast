@@ -276,8 +276,8 @@ class CategoryPlaylist extends StatelessWidget {
                   begin: Alignment.bottomLeft,
                   end: Alignment.topRight,
                   colors: [
-                    Theme.of(context).accentColor,
-                    Theme.of(context).primaryColor,
+                    Theme.of(context).colorScheme.secondary,
+                    Theme.of(context).colorScheme.primary,
                   ],
                 ),
               ),

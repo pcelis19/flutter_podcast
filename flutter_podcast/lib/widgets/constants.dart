@@ -33,8 +33,8 @@ class GradientBackground extends StatelessWidget {
               begin: Alignment.bottomLeft,
               end: Alignment.topRight,
               colors: [
-                Theme.of(context).primaryColor.withOpacity(opacity),
-                Theme.of(context).accentColor.withOpacity(opacity),
+                Theme.of(context).colorScheme.primary.withOpacity(opacity),
+                Theme.of(context).colorScheme.secondary.withOpacity(opacity),
               ],
             ),
           ),

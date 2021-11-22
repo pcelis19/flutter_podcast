@@ -71,8 +71,8 @@ class PodcastTile extends StatelessWidget {
               begin: Alignment.bottomLeft,
               end: Alignment.topRight,
               colors: [
-                Theme.of(context).accentColor.withOpacity(.2),
-                Theme.of(context).primaryColor.withOpacity(.2)
+                Theme.of(context).colorScheme.secondary.withOpacity(.2),
+                Theme.of(context).colorScheme.primary.withOpacity(.2)
               ],
             ),
           ),
@@ -94,8 +94,8 @@ class PodcastTile extends StatelessWidget {
                             body: LayoutBuilder(
                               builder: (context, constraints) {
                                 final imageHeight = constraints.maxWidth;
-                                final leftOverSpace =
-                                    constraints.maxHeight - imageHeight;
+                                // final leftOverSpace =
+                                //     constraints.maxHeight - imageHeight;
                                 return Column(
                                   children: [
                                     SizedBox(
@@ -194,10 +194,12 @@ class PodcastTile extends StatelessWidget {
                                     gradient: LinearGradient(
                                       colors: [
                                         Theme.of(context)
-                                            .accentColor
+                                            .colorScheme
+                                            .secondary
                                             .withOpacity(value),
                                         Theme.of(context)
-                                            .primaryColor
+                                            .colorScheme
+                                            .primary
                                             .withOpacity(value)
                                       ],
                                       begin: Alignment.bottomLeft,
