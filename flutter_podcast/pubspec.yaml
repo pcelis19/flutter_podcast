@@ -45,7 +45,6 @@ dependencies:
   quiver: ^3.0.1+1
   responsive_builder: ^0.4.1
   rxdart: ^0.27.2
-  settings_ui: ^1.0.0
   simple_animations: ^4.0.1
   string_validator: ^0.3.0
 

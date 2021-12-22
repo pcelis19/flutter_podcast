@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_podcast/services/theme_service.dart';
 import 'package:flutter_podcast/utils/constants.dart';
 import 'package:flutter_podcast/utils/theme_utils.dart';
-import 'package:settings_ui/settings_ui.dart';
 import 'package:basic_utils/basic_utils.dart' as basic_utils;
 
 class Settings extends StatelessWidget {
@@ -19,79 +18,64 @@ class Settings extends StatelessWidget {
           stream: ThemeService.instance.themeModeStream,
           initialData: ThemeService.instance.themeModeInitialData,
           builder: (context, snapshot) {
-            return SettingsList(
-              backgroundColor: Colors.transparent,
-              darkBackgroundColor: Colors.transparent,
-              lightBackgroundColor: Colors.transparent,
-              sections: [
-                SettingsSection(
-                  title: 'Theme & Colors',
-                  tiles: [
-                    SettingsTile.switchTile(
-                      title: 'Enable Dark Mode',
-                      onToggle: (value) {
-                        if (isLightMode(context)) {
-                          ThemeService.instance.enableDarkTheme();
-                        } else {
-                          ThemeService.instance.enableLightTheme();
-                        }
-                      },
-                      switchValue: !isLightMode(context),
-                    ),
-                    SettingsTile(
-                      title: 'Theme Scheme',
-                      subtitle: _spaceCamelCase((snapshot.data?.flexScheme ??
-                              ThemePacket.defaultTheme)
-                          .toString()
-                          .substring(11)),
-                      trailing: ThemePreviewColors(
-                        themeMode: snapshot.data?.themeMode ?? ThemeMode.system,
-                        scheme: snapshot.data?.flexScheme ??
-                            ThemePacket.defaultTheme.flexScheme,
-                      ),
-                      onPressed: (context) {
-                        showGeneralDialog<FlexScheme>(
-                          context: context,
-                          barrierDismissible: true,
-                          barrierLabel: 'Choose a Theme Scheme',
-                          pageBuilder: (_, animation, pageBuilderAnimation) {
-                            return FadeTransition(
-                              opacity: animation,
-                              child: ChooseThemeScheme(
-                                  currentScheme: snapshot.data?.flexScheme ??
-                                      ThemePacket.defaultTheme.flexScheme),
-                            );
-                          },
-                        ).then((value) {
-                          if (value != null) {
-                            ThemeService.instance.changeTheme(value);
-                          }
-                        });
-                      },
-                    ),
-                    SettingsTile.switchTile(
-                      title: 'Default Theme',
-                      onToggle: (enabled) {
-                        if (enabled) {
-                          ThemeService.instance.revertToDefaultColors();
-                        }
-                      },
-                      switchValue: snapshot.data?.flexScheme ==
-                          ThemePacket.defaultTheme.flexScheme,
-                    ),
-                  ],
+            return ListView(
+              // backgroundColor: Colors.transparent,
+              // darkBackgroundColor: Colors.transparent,
+              // lightBackgroundColor: Colors.transparent,
+              children: [
+                const Text('Theme & Colors'),
+                SwitchListTile(
+                  title: const Text('Enable Dark Mode'),
+                  onChanged: (value) {
+                    if (isLightMode(context)) {
+                      ThemeService.instance.enableDarkTheme();
+                    } else {
+                      ThemeService.instance.enableLightTheme();
+                    }
+                  },
+                  value: !isLightMode(context),
                 ),
-                SettingsSection(
-                  title: 'Storage',
-                  tiles: const [
-                    SettingsTile(
-                      title: 'Max Podcast Cache',
-                      trailing: CircleAvatar(
-                        child: Text('5'),
-                      ),
-                    ),
-                  ],
-                )
+                ListTile(
+                  title: const Text('Theme Scheme'),
+                  subtitle: Text(_spaceCamelCase(
+                      (snapshot.data?.flexScheme ?? ThemePacket.defaultTheme)
+                          .toString()
+                          .substring(11))),
+                  trailing: ThemePreviewColors(
+                    themeMode: snapshot.data?.themeMode ?? ThemeMode.system,
+                    scheme: snapshot.data?.flexScheme ??
+                        ThemePacket.defaultTheme.flexScheme,
+                  ),
+                  onTap: () {
+                    showGeneralDialog<FlexScheme>(
+                      context: context,
+                      barrierDismissible: true,
+                      barrierLabel: 'Choose a Theme Scheme',
+                      pageBuilder: (_, animation, pageBuilderAnimation) {
+                        return FadeTransition(
+                          opacity: animation,
+                          child: ChooseThemeScheme(
+                              currentScheme: snapshot.data?.flexScheme ??
+                                  ThemePacket.defaultTheme.flexScheme),
+                        );
+                      },
+                    ).then((value) {
+                      if (value != null) {
+                        ThemeService.instance.changeTheme(value);
+                      }
+                    });
+                  },
+                ),
+                SwitchListTile(
+                  title: const Text('Default Theme'),
+                  onChanged: (enabled) {
+                    if (enabled) {
+                      ThemeService.instance.revertToDefaultColors();
+                    }
+                  },
+                  value: snapshot.data?.flexScheme ==
+                      ThemePacket.defaultTheme.flexScheme,
+                ),
               ],
             );
           }),
